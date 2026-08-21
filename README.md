@@ -98,9 +98,9 @@ python app.py
 
 1. Зарегистрируйся на платформе
 2. Выполни в терминале:
-   \`\`\`bash
+   ```
    python -c "from database import Database; db = Database(); conn = db.get_connection(); cursor = conn.cursor(); cursor.execute('UPDATE users SET is_admin = 1 WHERE username = ?', ('ВАШ_ЛОГИН',)); conn.commit(); conn.close(); print('Готово!')"
-   \`\`\`
+   ```
 3. Перейди на \`/admin\`
 
 **Возможности админ-панели:**
