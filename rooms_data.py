@@ -9,7 +9,7 @@
 ROOMS = {
     "basics": {
         "id": "basics",
-        "title": "🔰 Основы кибербезопасности",
+        "title": "Основы кибербезопасности",
         "description": "Первая комната для новичков. Узнай базовые понятия и термины.",
         "difficulty": "Легко",
         "points": 100,
@@ -65,7 +65,7 @@ ROOMS = {
     
     "crypto": {
         "id": "crypto",
-        "title": "🔐 Криптография",
+        "title": "Криптография",
         "description": "Научись расшифровывать сообщения разными методами.",
         "difficulty": "Средне",
         "points": 150,
@@ -121,7 +121,7 @@ ROOMS = {
     
     "web": {
         "id": "web",
-        "title": "🌐 Веб-уязвимости",
+        "title": "Веб-уязвимости",
         "description": "Изучи основные уязвимости веб-приложений.",
         "difficulty": "Средне",
         "points": 200,
@@ -186,7 +186,7 @@ ROOMS = {
     
     "network": {
         "id": "network",
-        "title": "📡 Сетевые технологии",
+        "title": "Сетевые технологии",
         "description": "Основы сетевого взаимодействия и протоколов.",
         "difficulty": "Средне",
         "points": 180,
@@ -242,7 +242,7 @@ ROOMS = {
     
     "forensics": {
         "id": "forensics",
-        "title": "🔍 Форензика",
+        "title": "Форензика",
         "description": "Цифровая криминалистика и анализ данных.",
         "difficulty": "Сложно",
         "points": 250,
@@ -289,7 +289,7 @@ ROOMS = {
     
     "linux": {
         "id": "linux",
-        "title": "🐧 Linux для хакеров",
+        "title": "Linux для хакеров",
         "description": "Основные команды Linux для пентеста.",
         "difficulty": "Легко",
         "points": 120,
@@ -345,7 +345,7 @@ ROOMS = {
     
     "steganography": {
         "id": "steganography",
-        "title": "🖼 Стеганография",
+        "title": "Стеганография",
         "description": "Искусство скрытой передачи информации в изображениях, аудио и тексте.",
         "difficulty": "Сложно",
         "points": 200,
@@ -401,7 +401,7 @@ ROOMS = {
     
     "reverse": {
         "id": "reverse",
-        "title": "🔧 Reverse Engineering",
+        "title": "Reverse Engineering",
         "description": "Обратная разработка программного обеспечения.",
         "difficulty": "Сложно",
         "points": 250,
@@ -457,7 +457,7 @@ ROOMS = {
     
     "osint": {
         "id": "osint",
-        "title": "🔍 OSINT",
+        "title": "OSINT",
         "description": "Поиск информации в открытых источниках.",
         "difficulty": "Средне",
         "points": 180,

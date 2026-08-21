@@ -13,6 +13,7 @@
             <a href="{{ url_for('index') }}" class="nav-logo">🔐 CyberLab</a>
             <div class="nav-links">
                 <a href="{{ url_for('rooms') }}">{{ t.nav_rooms }}</a>
+                <a href="{{ url_for('learn') }}">📖 {{ t.nav_learn }}</a>
                 {% if current_user.is_authenticated %}
                 <a href="{{ url_for('ctf_files_list') }}">📁 CTF</a>
                 <a href="{{ url_for('vms_list') }}">🐳 VM</a>
@@ -58,6 +59,7 @@
             {% else %}
                 <div class="hero-actions">
                     <a href="{{ url_for('rooms') }}" class="btn-primary">{{ t.hero_goto_rooms }}</a>
+                    <a href="{{ url_for('learn') }}" class="btn-secondary">📖 {{ t.nav_learn }}</a>
                 </div>
             {% endif %}
         </section>
@@ -65,8 +67,9 @@
         {% if current_user.is_authenticated %}
         <section class="quick-links">
             <a href="{{ url_for('rooms') }}" class="quick-link">📚 {{ t.nav_rooms }}</a>
-            <a href="{{ url_for('ctf_files_list') }}" class="quick-link">📁 CTF {{ t.ctf_files }}</a>
-            <a href="{{ url_for('vms_list') }}" class="quick-link">🐳 {{ t.nav_vms }}</a>
+            <a href="{{ url_for('learn') }}" class="quick-link">📖 {{ t.nav_learn }}</a>
+            <a href="{{ url_for('ctf_files_list') }}" class="quick-link">📁 CTF</a>
+            <a href="{{ url_for('vms_list') }}" class="quick-link">🐳 VM</a>
             <a href="{{ url_for('leaderboard') }}" class="quick-link">🏆 {{ t.nav_leaderboard }}</a>
         </section>
         {% endif %}
@@ -95,7 +98,6 @@
             <div class="rooms-grid">
                 {% for room in rooms %}
                 <div class="room-card">
-                    <div class="room-icon">{{ room.icon }}</div>
                     <h3>{{ room.title }}</h3>
                     <p>{{ room.description }}</p>
                     <div class="room-meta">
@@ -120,7 +122,7 @@
     </main>
 
     <footer class="footer">
-        <p>🔐 CyberLab v1.1 | {{ t.footer_created }} <a href="https://github.com/Oncillaa" target="_blank">Oncilla</a></p>
+        <p>🔐 CyberLab v1.3 | {{ t.footer_created }} <a href="https://github.com/Oncillaa" target="_blank">Oncilla</a></p>
         <p>{{ t.footer_educational }}</p>
     </footer>
 </body>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ t.rooms_all }} - CyberLab</title>
+    <title>{{ category.title }} - CyberLab</title>
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
@@ -39,41 +39,43 @@
     </nav>
 
     <main class="container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+        <a href="{{ url_for('learn') }}" class="back-link">← К списку категорий</a>
 
-        <h1>{{ t.rooms_all }}</h1>
-        <p class="subtitle">{{ t.rooms_subtitle }}</p>
+        <section class="category-header">
+            <span class="category-big-icon">{{ category.icon }}</span>
+            <h1>{{ category.title }}</h1>
+            <p>{{ category.description }}</p>
+        </section>
 
-        <div class="rooms-grid">
-            {% for room in rooms %}
-            <div class="room-card">
-                <h3>{{ room.title }}</h3>
-                <p>{{ room.description }}</p>
-                <div class="room-meta">
-                    <span class="difficulty difficulty-{{ room.difficulty|lower }}">
-                        {{ room.difficulty }}
-                    </span>
-                    <span class="room-points">⭐ {{ room.points }} {{ t.nav_points }}</span>
+        <div class="articles-list">
+            {% for article in articles %}
+            <a href="{{ url_for('learn_article', category_id=category.id, article_id=article.id) }}" class="article-card">
+                <div class="article-card-icon">📄</div>
+                <div class="article-card-content">
+                    <h3>{{ article.title }}</h3>
+                    <p>{{ article.short_description }}</p>
+                    <div class="article-meta">
+                        <span class="meta-badge">⏱ {{ article.reading_time }} мин</span>
+                        <span class="meta-badge difficulty-{{ article.difficulty|lower }}">{{ article.difficulty }}</span>
+                    </div>
                 </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: {{ room.progress }}%"></div>
-                </div>
-                <div class="progress-text">
-                    {{ room.completed_tasks }}/{{ room.total_tasks }} {{ t.room_tasks }} ({{ room.progress }}%)
-                </div>
-                {% if current_user.is_authenticated %}
-                    <a href="{{ url_for('room', room_id=room.id) }}" class="btn-room">{{ t.rooms_open }}</a>
-                {% else %}
-                    <a href="{{ url_for('login') }}" class="btn-room">{{ t.rooms_login_required }}</a>
-                {% endif %}
-            </div>
+                <span class="article-arrow">→</span>
+            </a>
             {% endfor %}
+
+            {% if not articles %}
+            <div class="no-data">
+                <p>📝 Статьи скоро появятся!</p>
+                <p>А пока — попробуй практику в комнатах.</p>
+                <a href="{{ url_for('rooms') }}" class="btn-primary">Перейти к комнатам</a>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="category-practice">
+            <h3>🎯 Хочешь практиковаться?</h3>
+            <p>Перейди в комнату и решай задания по этой теме!</p>
+            <a href="{{ url_for('rooms') }}" class="btn-primary">Открыть комнаты</a>
         </div>
     </main>
 

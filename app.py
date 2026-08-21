@@ -13,18 +13,17 @@ from rooms_data import get_all_rooms, get_room, get_total_points
 from translations import get_translations, get_text
 from ctf_files import list_ctf_files, get_ctf_file_path, generate_all_demo_files
 from vm_manager import VMManager
+from learning_data import get_all_categories, get_category, get_articles_by_category, get_article
 from functools import wraps
 import secrets
+import markdown
 
 
-# Инициализация приложения
 app = Flask(__name__)
 app.config['SECRET_KEY'] = secrets.token_hex(32)
 
-# Инициализация базы данных
 db = Database()
 
-# Инициализация Flask-Login
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
@@ -34,14 +33,12 @@ login_manager.login_message_category = 'error'
 
 @login_manager.user_loader
 def load_user(user_id):
-    """Загружает пользователя по ID для Flask-Login."""
     user_data = db.get_user_by_id(int(user_id))
     if user_data:
         return User(dict(user_data))
     return None
 
 
-# Декоратор для проверки авторизации через API
 def api_login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -51,7 +48,6 @@ def api_login_required(f):
     return decorated_function
 
 
-# Декоратор для проверки прав администратора
 def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -67,7 +63,6 @@ def admin_required(f):
 # === ЯЗЫКОВАЯ ПОДДЕРЖКА ===
 
 def get_current_lang():
-    """Определяет текущий язык пользователя."""
     if 'lang' in session:
         return session['lang']
     return 'ru'
@@ -75,7 +70,6 @@ def get_current_lang():
 
 @app.context_processor
 def inject_translations():
-    """Добавляет переводы и язык во все шаблоны."""
     lang = get_current_lang()
     return {
         't': get_translations(lang),
@@ -85,7 +79,6 @@ def inject_translations():
 
 @app.route('/set_lang/<lang>')
 def set_lang(lang):
-    """Переключает язык."""
     if lang in ['ru', 'en']:
         session['lang'] = lang
     return redirect(request.referrer or url_for('index'))
@@ -95,9 +88,7 @@ def set_lang(lang):
 
 @app.route('/')
 def index():
-    """Главная страница."""
     rooms = get_all_rooms()
-    
     completed_tasks = []
     if current_user.is_authenticated:
         completed_tasks = db.get_completed_tasks(current_user.id)
@@ -119,7 +110,6 @@ def index():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    """Регистрация нового пользователя."""
     if current_user.is_authenticated:
         return redirect(url_for('index'))
     
@@ -162,7 +152,6 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    """Вход в систему."""
     if current_user.is_authenticated:
         return redirect(url_for('index'))
     
@@ -192,7 +181,6 @@ def login():
 @app.route('/logout')
 @login_required
 def logout():
-    """Выход из системы."""
     logout_user()
     flash('Вы вышли из системы', 'success')
     return redirect(url_for('index'))
@@ -200,9 +188,7 @@ def logout():
 
 @app.route('/rooms')
 def rooms():
-    """Список всех комнат."""
     all_rooms = get_all_rooms()
-    
     completed_tasks = []
     if current_user.is_authenticated:
         completed_tasks = db.get_completed_tasks(current_user.id)
@@ -225,7 +211,6 @@ def rooms():
 @app.route('/room/<room_id>')
 @login_required
 def room(room_id):
-    """Страница комнаты с заданиями."""
     room_data = get_room(room_id)
     if not room_data:
         flash('Комната не найдена', 'error')
@@ -260,9 +245,7 @@ def room(room_id):
 @app.route('/api/check_answer', methods=['POST'])
 @api_login_required
 def check_answer():
-    """Проверяет ответ на задание."""
     data = request.get_json()
-    
     room_id = data.get('room_id')
     task_id = data.get('task_id')
     answer = data.get('answer', '').strip().lower()
@@ -312,9 +295,7 @@ def check_answer():
 @app.route('/api/get_hint', methods=['POST'])
 @api_login_required
 def get_hint():
-    """Возвращает подсказку для задания."""
     data = request.get_json()
-    
     room_id = data.get('room_id')
     task_id = data.get('task_id')
     
@@ -336,7 +317,6 @@ def get_hint():
 
 @app.route('/leaderboard')
 def leaderboard():
-    """Таблица лидеров."""
     leaders = db.get_leaderboard(20)
     return render_template('leaderboard.html', leaders=leaders)
 
@@ -344,7 +324,6 @@ def leaderboard():
 @app.route('/profile')
 @login_required
 def profile():
-    """Профиль пользователя."""
     stats = db.get_user_stats(current_user.id)
     completed_tasks = db.get_completed_tasks(current_user.id)
     badges = db.get_user_badges(current_user.id)
@@ -364,17 +343,14 @@ def profile():
 @app.route('/admin')
 @admin_required
 def admin_panel():
-    """Админ-панель."""
     stats = db.get_platform_stats()
     users = db.get_all_users()
-    
     return render_template('admin.html', stats=stats, users=users)
 
 
 @app.route('/admin/delete_user/<int:user_id>', methods=['POST'])
 @admin_required
 def admin_delete_user(user_id):
-    """Удаляет пользователя."""
     if user_id == current_user.id:
         flash('Нельзя удалить самого себя', 'error')
         return redirect(url_for('admin_panel'))
@@ -387,7 +363,6 @@ def admin_delete_user(user_id):
 @app.route('/admin/toggle_admin/<int:user_id>', methods=['POST'])
 @admin_required
 def admin_toggle_admin(user_id):
-    """Переключает права администратора."""
     if user_id == current_user.id:
         flash('Нельзя изменить свои права', 'error')
         return redirect(url_for('admin_panel'))
@@ -407,7 +382,6 @@ def admin_toggle_admin(user_id):
 @app.route('/ctf/files')
 @login_required
 def ctf_files_list():
-    """Страница со списком CTF-файлов."""
     files = list_ctf_files()
     return render_template('ctf_files.html', files=files)
 
@@ -415,7 +389,6 @@ def ctf_files_list():
 @app.route('/ctf/download/<filename>')
 @login_required
 def ctf_download(filename):
-    """Скачивание CTF-файла."""
     filepath = get_ctf_file_path(filename)
     if filepath:
         return send_file(filepath, as_attachment=True)
@@ -426,7 +399,6 @@ def ctf_download(filename):
 @app.route('/ctf/generate')
 @admin_required
 def ctf_generate():
-    """Генерация демонстрационных CTF-файлов."""
     generate_all_demo_files()
     flash('Демо-файлы созданы!', 'success')
     return redirect(url_for('ctf_files_list'))
@@ -437,7 +409,6 @@ def ctf_generate():
 @app.route('/vms')
 @login_required
 def vms_list():
-    """Страница виртуальных машин."""
     docker_available = VMManager.check_docker()
     vms = VMManager.get_vm_list_with_status()
     return render_template('vms.html', vms=vms, docker_available=docker_available)
@@ -446,7 +417,6 @@ def vms_list():
 @app.route('/vms/start/<vm_id>', methods=['POST'])
 @admin_required
 def vm_start(vm_id):
-    """Запускает виртуальную машину."""
     success, message = VMManager.start_container(vm_id)
     flash(message, 'success' if success else 'error')
     return redirect(url_for('vms_list'))
@@ -455,10 +425,40 @@ def vm_start(vm_id):
 @app.route('/vms/stop/<vm_id>', methods=['POST'])
 @admin_required
 def vm_stop(vm_id):
-    """Останавливает виртуальную машину."""
     success, message = VMManager.stop_container(vm_id)
     flash(message, 'success' if success else 'error')
     return redirect(url_for('vms_list'))
+
+
+# === ОБУЧЕНИЕ ===
+
+@app.route('/learn')
+def learn():
+    categories = get_all_categories()
+    return render_template('learn.html', categories=categories)
+
+
+@app.route('/learn/<category_id>')
+def learn_category(category_id):
+    category = get_category(category_id)
+    if not category:
+        flash('Категория не найдена', 'error')
+        return redirect(url_for('learn'))
+    
+    articles = get_articles_by_category(category_id)
+    return render_template('learn_category.html', category=category, articles=articles)
+
+
+@app.route('/learn/<category_id>/<article_id>')
+def learn_article(category_id, article_id):
+    article = get_article(article_id)
+    if not article or article["category"] != category_id:
+        flash('Статья не найдена', 'error')
+        return redirect(url_for('learn'))
+    
+    content_html = markdown.markdown(article["content"], extensions=['tables', 'fenced_code'])
+    
+    return render_template('learn_article.html', article=article, content_html=content_html)
 
 
 # === ОБРАБОТКА ОШИБОК ===
@@ -476,13 +476,10 @@ def internal_error(error):
 # === ЗАПУСК ===
 
 if __name__ == '__main__':
-    # Создаём папку instance, если её нет
     if not os.path.exists('instance'):
         os.makedirs('instance')
     
-    # Создаём папку для CTF-файлов
     if not os.path.exists('ctf_files'):
         os.makedirs('ctf_files')
     
-    # Запускаем приложение
     app.run(debug=True, host='0.0.0.0', port=5000, use_reloader=False)

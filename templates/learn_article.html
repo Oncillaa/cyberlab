@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ t.rooms_all }} - CyberLab</title>
+    <title>{{ article.title }} - CyberLab</title>
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
@@ -39,41 +39,15 @@
     </nav>
 
     <main class="container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+        <a href="{{ url_for('learn_category', category_id=article.category) }}" class="back-link">← Назад к категории</a>
 
-        <h1>{{ t.rooms_all }}</h1>
-        <p class="subtitle">{{ t.rooms_subtitle }}</p>
+        <div class="article-content">
+            {{ content_html|safe }}
+        </div>
 
-        <div class="rooms-grid">
-            {% for room in rooms %}
-            <div class="room-card">
-                <h3>{{ room.title }}</h3>
-                <p>{{ room.description }}</p>
-                <div class="room-meta">
-                    <span class="difficulty difficulty-{{ room.difficulty|lower }}">
-                        {{ room.difficulty }}
-                    </span>
-                    <span class="room-points">⭐ {{ room.points }} {{ t.nav_points }}</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: {{ room.progress }}%"></div>
-                </div>
-                <div class="progress-text">
-                    {{ room.completed_tasks }}/{{ room.total_tasks }} {{ t.room_tasks }} ({{ room.progress }}%)
-                </div>
-                {% if current_user.is_authenticated %}
-                    <a href="{{ url_for('room', room_id=room.id) }}" class="btn-room">{{ t.rooms_open }}</a>
-                {% else %}
-                    <a href="{{ url_for('login') }}" class="btn-room">{{ t.rooms_login_required }}</a>
-                {% endif %}
-            </div>
-            {% endfor %}
+        <div class="article-navigation">
+            <a href="{{ url_for('learn_category', category_id=article.category) }}" class="article-nav-link">← К статьям</a>
+            <a href="{{ url_for('rooms') }}" class="article-nav-link">🎯 Перейти к практике →</a>
         </div>
     </main>
 

@@ -14,6 +14,9 @@ TRANSLATIONS = {
         "nav_logout": "Выйти",
         "nav_points": "очков",
         "nav_admin": "Админ",
+        "nav_learn": "Обучение",
+        "nav_ctf": "CTF",
+        "nav_vms": "VM",
         "hero_title": "🚀 Добро пожаловать в CyberLab",
         "hero_subtitle": "Интерактивная платформа для изучения кибербезопасности",
         "hero_description": "Решай задания, зарабатывай очки, становись хакером!",
@@ -96,7 +99,13 @@ TRANSLATIONS = {
         "admin_make_admin": "👑 Сделать админом",
         "admin_remove_admin": "⬇ Снять админа",
         "admin_self": "Это вы",
-        "admin_delete_confirm": "Удалить пользователя"
+        "admin_delete_confirm": "Удалить пользователя",
+        "ctf_title": "📁 CTF Файлы",
+        "ctf_subtitle": "Скачай файлы и реши задания",
+        "vm_title": "🐳 Виртуальные машины",
+        "vm_subtitle": "Запускай уязвимые машины для практики",
+        "learn_title": "📖 Обучение",
+        "learn_subtitle": "Теоретические материалы"
     },
     "en": {
         "nav_rooms": "Rooms",
@@ -107,6 +116,9 @@ TRANSLATIONS = {
         "nav_logout": "Logout",
         "nav_points": "points",
         "nav_admin": "Admin",
+        "nav_learn": "Learn",
+        "nav_ctf": "CTF",
+        "nav_vms": "VM",
         "hero_title": "🚀 Welcome to CyberLab",
         "hero_subtitle": "Interactive cybersecurity learning platform",
         "hero_description": "Solve tasks, earn points, become a hacker!",
@@ -189,17 +201,21 @@ TRANSLATIONS = {
         "admin_make_admin": "👑 Make admin",
         "admin_remove_admin": "⬇ Remove admin",
         "admin_self": "This is you",
-        "admin_delete_confirm": "Delete user"
+        "admin_delete_confirm": "Delete user",
+        "ctf_title": "📁 CTF Files",
+        "ctf_subtitle": "Download files and solve tasks",
+        "vm_title": "🐳 Virtual Machines",
+        "vm_subtitle": "Run vulnerable machines for practice",
+        "learn_title": "📖 Learn",
+        "learn_subtitle": "Theoretical materials"
     }
 }
 
 
 def get_translations(lang="ru"):
-    """Возвращает словарь переводов для указанного языка."""
     return TRANSLATIONS.get(lang, TRANSLATIONS["ru"])
 
 
 def get_text(lang, key):
-    """Возвращает перевод по ключу."""
     translations = get_translations(lang)
     return translations.get(key, key)
