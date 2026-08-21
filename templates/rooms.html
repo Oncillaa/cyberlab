@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="{{ lang }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Комнаты - CyberLab</title>
+    <title>{{ t.rooms_all }} - CyberLab</title>
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
@@ -12,15 +12,22 @@
         <div class="nav-container">
             <a href="{{ url_for('index') }}" class="nav-logo">🔐 CyberLab</a>
             <div class="nav-links">
-                <a href="{{ url_for('leaderboard') }}">Рейтинг</a>
+                <a href="{{ url_for('leaderboard') }}">{{ t.nav_leaderboard }}</a>
                 {% if current_user.is_authenticated %}
-                    <a href="{{ url_for('profile') }}">Профиль</a>
-                    <span class="nav-points">⭐ {{ current_user.points }} очков</span>
-                    <a href="{{ url_for('logout') }}" class="btn-logout">Выйти</a>
+                    <a href="{{ url_for('profile') }}">{{ t.nav_profile }}</a>
+                    <span class="nav-points">⭐ {{ current_user.points }} {{ t.nav_points }}</span>
+                    {% if current_user.is_admin == 1 %}
+                    <a href="{{ url_for('admin_panel') }}" class="admin-badge">👑 {{ t.nav_admin }}</a>
+                    {% endif %}
+                    <a href="{{ url_for('logout') }}" class="btn-logout">{{ t.nav_logout }}</a>
                 {% else %}
-                    <a href="{{ url_for('login') }}" class="btn-login">Войти</a>
-                    <a href="{{ url_for('register') }}" class="btn-register">Регистрация</a>
+                    <a href="{{ url_for('login') }}" class="btn-login">{{ t.nav_login }}</a>
+                    <a href="{{ url_for('register') }}" class="btn-register">{{ t.nav_register }}</a>
                 {% endif %}
+                <div class="lang-switch">
+                    <a href="{{ url_for('set_lang', lang='ru') }}" class="{% if lang == 'ru' %}active{% endif %}">🇷🇺</a>
+                    <a href="{{ url_for('set_lang', lang='en') }}" class="{% if lang == 'en' %}active{% endif %}">🇬🇧</a>
+                </div>
             </div>
         </div>
     </nav>
@@ -34,8 +41,8 @@
             {% endif %}
         {% endwith %}
 
-        <h1>📚 Все комнаты</h1>
-        <p class="subtitle">Выбери комнату и начни обучение</p>
+        <h1>{{ t.rooms_all }}</h1>
+        <p class="subtitle">{{ t.rooms_subtitle }}</p>
 
         <div class="rooms-grid">
             {% for room in rooms %}
@@ -47,18 +54,18 @@
                     <span class="difficulty difficulty-{{ room.difficulty|lower }}">
                         {{ room.difficulty }}
                     </span>
-                    <span class="room-points">⭐ {{ room.points }} очков</span>
+                    <span class="room-points">⭐ {{ room.points }} {{ t.nav_points }}</span>
                 </div>
                 <div class="progress-bar">
                     <div class="progress-fill" style="width: {{ room.progress }}%"></div>
                 </div>
                 <div class="progress-text">
-                    {{ room.completed_tasks }}/{{ room.total_tasks }} заданий ({{ room.progress }}%)
+                    {{ room.completed_tasks }}/{{ room.total_tasks }} {{ t.room_tasks }} ({{ room.progress }}%)
                 </div>
                 {% if current_user.is_authenticated %}
-                    <a href="{{ url_for('room', room_id=room.id) }}" class="btn-room">Открыть комнату</a>
+                    <a href="{{ url_for('room', room_id=room.id) }}" class="btn-room">{{ t.rooms_open }}</a>
                 {% else %}
-                    <a href="{{ url_for('login') }}" class="btn-room">Войдите для доступа</a>
+                    <a href="{{ url_for('login') }}" class="btn-room">{{ t.rooms_login_required }}</a>
                 {% endif %}
             </div>
             {% endfor %}
@@ -66,7 +73,7 @@
     </main>
 
     <footer class="footer">
-        <p>🔐 CyberLab v1.0 | Создано <a href="https://github.com/Oncillaa" target="_blank">Oncilla</a></p>
+        <p>🔐 CyberLab v1.0 | {{ t.footer_created }} <a href="https://github.com/Oncillaa" target="_blank">Oncilla</a></p>
     </footer>
 </body>
 </html>

@@ -10,6 +10,7 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import Database, User
 from rooms_data import get_all_rooms, get_room, get_total_points
+from translations import get_translations, get_text
 from functools import wraps
 import secrets
 
@@ -48,6 +49,46 @@ def api_login_required(f):
     return decorated_function
 
 
+# Декоратор для проверки прав администратора
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not current_user.is_authenticated:
+            return redirect(url_for('login'))
+        if not db.is_admin(current_user.id):
+            flash('Доступ запрещён. Требуются права администратора.', 'error')
+            return redirect(url_for('index'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+# === ЯЗЫКОВАЯ ПОДДЕРЖКА ===
+
+def get_current_lang():
+    """Определяет текущий язык пользователя."""
+    if 'lang' in session:
+        return session['lang']
+    return 'ru'
+
+
+@app.context_processor
+def inject_translations():
+    """Добавляет переводы и язык во все шаблоны."""
+    lang = get_current_lang()
+    return {
+        't': get_translations(lang),
+        'lang': lang
+    }
+
+
+@app.route('/set_lang/<lang>')
+def set_lang(lang):
+    """Переключает язык."""
+    if lang in ['ru', 'en']:
+        session['lang'] = lang
+    return redirect(request.referrer or url_for('index'))
+
+
 # === МАРШРУТЫ ===
 
 @app.route('/')
@@ -55,12 +96,10 @@ def index():
     """Главная страница."""
     rooms = get_all_rooms()
     
-    # Если пользователь авторизован, получаем его прогресс
     completed_tasks = []
     if current_user.is_authenticated:
         completed_tasks = db.get_completed_tasks(current_user.id)
     
-    # Считаем прогресс для каждой комнаты
     rooms_with_progress = []
     for room in rooms:
         total_tasks = len(room["tasks"])
@@ -88,7 +127,6 @@ def register():
         password = request.form.get('password', '')
         confirm_password = request.form.get('confirm_password', '')
         
-        # Валидация
         if not username or not email or not password:
             flash('Все поля обязательны для заполнения', 'error')
             return render_template('register.html')
@@ -109,7 +147,6 @@ def register():
             flash('Введите корректный email', 'error')
             return render_template('register.html')
         
-        # Создаём пользователя
         success, message = db.create_user(username, email, password)
         
         if success:
@@ -140,7 +177,6 @@ def login():
             db.update_last_login(user.id)
             flash(f'Добро пожаловать, {username}!', 'success')
             
-            # Перенаправляем на страницу, с которой пришли
             next_page = request.args.get('next')
             if next_page:
                 return redirect(next_page)
@@ -196,7 +232,6 @@ def room(room_id):
     completed_tasks = db.get_completed_tasks(current_user.id)
     completed_in_room = [task_id for r_id, task_id in completed_tasks if r_id == room_id]
     
-    # Добавляем статус выполнения к заданиям
     tasks_with_status = []
     for task in room_data["tasks"]:
         is_completed = task["id"] in completed_in_room
@@ -237,7 +272,6 @@ def check_answer():
     if not room_data:
         return jsonify({"correct": False, "message": "Комната не найдена"})
     
-    # Ищем задание
     task = None
     for t in room_data["tasks"]:
         if t["id"] == task_id:
@@ -247,17 +281,13 @@ def check_answer():
     if not task:
         return jsonify({"correct": False, "message": "Задание не найдено"})
     
-    # Проверяем ответ
     correct_answer = task["answer"].lower()
     is_correct = answer == correct_answer
     
-    # Логируем попытку
     db.log_attempt(current_user.id, room_id, task_id, answer, 1 if is_correct else 0)
     
     if is_correct:
-        # Проверяем, не выполнено ли уже
         if db.mark_task_completed(current_user.id, room_id, task_id):
-            # Начисляем очки
             db.add_points(current_user.id, task["points"])
             return jsonify({
                 "correct": True,
@@ -315,12 +345,59 @@ def profile():
     """Профиль пользователя."""
     stats = db.get_user_stats(current_user.id)
     completed_tasks = db.get_completed_tasks(current_user.id)
+    badges = db.get_user_badges(current_user.id)
+    level = db.get_user_level(current_user.id)
     
     return render_template(
         'profile.html',
         stats=stats,
-        completed_tasks_count=len(completed_tasks)
+        completed_tasks_count=len(completed_tasks),
+        badges=badges,
+        level=level
     )
+
+
+# === АДМИН-ПАНЕЛЬ ===
+
+@app.route('/admin')
+@admin_required
+def admin_panel():
+    """Админ-панель."""
+    stats = db.get_platform_stats()
+    users = db.get_all_users()
+    
+    return render_template('admin.html', stats=stats, users=users)
+
+
+@app.route('/admin/delete_user/<int:user_id>', methods=['POST'])
+@admin_required
+def admin_delete_user(user_id):
+    """Удаляет пользователя."""
+    if user_id == current_user.id:
+        flash('Нельзя удалить самого себя', 'error')
+        return redirect(url_for('admin_panel'))
+    
+    db.delete_user(user_id)
+    flash(f'Пользователь #{user_id} удалён', 'success')
+    return redirect(url_for('admin_panel'))
+
+
+@app.route('/admin/toggle_admin/<int:user_id>', methods=['POST'])
+@admin_required
+def admin_toggle_admin(user_id):
+    """Переключает права администратора."""
+    if user_id == current_user.id:
+        flash('Нельзя изменить свои права', 'error')
+        return redirect(url_for('admin_panel'))
+    
+    user = db.get_user_by_id(user_id)
+    if user:
+        new_status = not (user["is_admin"] == 1)
+        db.set_admin(user_id, new_status)
+        status_text = "назначен администратором" if new_status else "снят с администратора"
+        flash(f'Пользователь #{user_id} {status_text}', 'success')
+    
+    return redirect(url_for('admin_panel'))
 
 
 # === ОБРАБОТКА ОШИБОК ===
@@ -343,5 +420,4 @@ if __name__ == '__main__':
         os.makedirs('instance')
     
     # Запускаем приложение
-    # use_reloader=False отключает watchdog, который вызывает перезагрузку
     app.run(debug=True, host='0.0.0.0', port=5000, use_reloader=False)

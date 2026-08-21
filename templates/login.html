@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="{{ lang }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вход - CyberLab</title>
+    <title>{{ t.login_title }} - CyberLab</title>
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
@@ -12,9 +12,13 @@
         <div class="nav-container">
             <a href="{{ url_for('index') }}" class="nav-logo">🔐 CyberLab</a>
             <div class="nav-links">
-                <a href="{{ url_for('rooms') }}">Комнаты</a>
-                <a href="{{ url_for('leaderboard') }}">Рейтинг</a>
-                <a href="{{ url_for('register') }}" class="btn-register">Регистрация</a>
+                <a href="{{ url_for('rooms') }}">{{ t.nav_rooms }}</a>
+                <a href="{{ url_for('leaderboard') }}">{{ t.nav_leaderboard }}</a>
+                <a href="{{ url_for('register') }}" class="btn-register">{{ t.nav_register }}</a>
+                <div class="lang-switch">
+                    <a href="{{ url_for('set_lang', lang='ru') }}" class="{% if lang == 'ru' %}active{% endif %}">🇷🇺</a>
+                    <a href="{{ url_for('set_lang', lang='en') }}" class="{% if lang == 'en' %}active{% endif %}">🇬🇧</a>
+                </div>
             </div>
         </div>
     </nav>
@@ -29,30 +33,30 @@
         {% endwith %}
 
         <div class="auth-card">
-            <h2>🔑 Вход в CyberLab</h2>
+            <h2>{{ t.login_title }}</h2>
             <form method="POST" action="{{ url_for('login') }}">
                 <div class="form-group">
-                    <label for="username">Имя пользователя</label>
+                    <label for="username">{{ t.login_username }}</label>
                     <input type="text" id="username" name="username" required autofocus>
                 </div>
                 <div class="form-group">
-                    <label for="password">Пароль</label>
+                    <label for="password">{{ t.login_password }}</label>
                     <input type="password" id="password" name="password" required>
                 </div>
                 <div class="form-group checkbox-group">
                     <label>
                         <input type="checkbox" name="remember">
-                        Запомнить меня
+                        {{ t.login_remember }}
                     </label>
                 </div>
-                <button type="submit" class="btn-primary btn-full">Войти</button>
+                <button type="submit" class="btn-full">{{ t.login_submit }}</button>
             </form>
-            <p class="auth-link">Нет аккаунта? <a href="{{ url_for('register') }}">Зарегистрируйтесь</a></p>
+            <p class="auth-link">{{ t.login_no_account }} <a href="{{ url_for('register') }}">{{ t.login_register_link }}</a></p>
         </div>
     </main>
 
     <footer class="footer">
-        <p>🔐 CyberLab v1.0 | Создано <a href="https://github.com/Oncillaa" target="_blank">Oncilla</a></p>
+        <p>🔐 CyberLab v1.0 | {{ t.footer_created }} <a href="https://github.com/Oncillaa" target="_blank">Oncilla</a></p>
     </footer>
 </body>
 </html>

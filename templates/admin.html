@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ t.admin_title }} - CyberLab</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="nav-logo">🔐 CyberLab</a>
+            <div class="nav-links">
+                <a href="{{ url_for('rooms') }}">{{ t.nav_rooms }}</a>
+                <a href="{{ url_for('leaderboard') }}">{{ t.nav_leaderboard }}</a>
+                <a href="{{ url_for('profile') }}">{{ t.nav_profile }}</a>
+                <span class="admin-badge">👑 {{ t.nav_admin }}</span>
+                <a href="{{ url_for('set_lang', lang='ru') }}">🇷🇺</a>
+                <a href="{{ url_for('set_lang', lang='en') }}">🇬🇧</a>
+                <a href="{{ url_for('logout') }}" class="btn-logout">{{ t.nav_logout }}</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h1>{{ t.admin_title }}</h1>
+        <p class="subtitle">{{ t.admin_subtitle }}</p>
+
+        <section class="stats-section">
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.total_users }}</div>
+                <div class="stat-label">{{ t.admin_stats_users }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.total_completed_tasks }}</div>
+                <div class="stat-label">{{ t.admin_stats_tasks }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.total_attempts }}</div>
+                <div class="stat-label">{{ t.admin_stats_attempts }}</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.total_points }}</div>
+                <div class="stat-label">{{ t.admin_stats_points }}</div>
+            </div>
+        </section>
+
+        <section class="admin-users-section">
+            <h2>{{ t.admin_users }}</h2>
+            <div class="admin-table-wrapper">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>{{ t.admin_table_id }}</th>
+                            <th>{{ t.admin_table_name }}</th>
+                            <th>{{ t.admin_table_email }}</th>
+                            <th>{{ t.admin_table_points }}</th>
+                            <th>{{ t.admin_table_tasks }}</th>
+                            <th>{{ t.admin_table_registered }}</th>
+                            <th>{{ t.admin_table_actions }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>
+                                {{ user.username }}
+                                {% if user.is_admin == 1 %}
+                                <span class="admin-badge">👑</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ user.email }}</td>
+                            <td>⭐ {{ user.points }}</td>
+                            <td>{{ user.tasks_completed }}</td>
+                            <td>{{ user.created_at[:10] }}</td>
+                            <td class="admin-actions">
+                                {% if user.id != current_user.id %}
+                                <form method="POST" action="{{ url_for('admin_delete_user', user_id=user.id) }}" 
+                                      onsubmit="return confirm('{{ t.admin_delete_confirm }} {{ user.username }}?');" 
+                                      style="display: inline;">
+                                    <button type="submit" class="btn-delete">{{ t.admin_delete }}</button>
+                                </form>
+                                <form method="POST" action="{{ url_for('admin_toggle_admin', user_id=user.id) }}" 
+                                      style="display: inline;">
+                                    {% if user.is_admin == 1 %}
+                                    <button type="submit" class="btn-remove-admin">{{ t.admin_remove_admin }}</button>
+                                    {% else %}
+                                    <button type="submit" class="btn-make-admin">{{ t.admin_make_admin }}</button>
+                                    {% endif %}
+                                </form>
+                                {% else %}
+                                <span class="admin-self">{{ t.admin_self }}</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>🔐 CyberLab v1.0 | {{ t.admin_title }}</p>
+    </footer>
+</body>
+</html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="{{ lang }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,11 +12,18 @@
         <div class="nav-container">
             <a href="{{ url_for('index') }}" class="nav-logo">🔐 CyberLab</a>
             <div class="nav-links">
-                <a href="{{ url_for('rooms') }}">Комнаты</a>
-                <a href="{{ url_for('leaderboard') }}">Рейтинг</a>
-                <a href="{{ url_for('profile') }}">Профиль</a>
-                <span class="nav-points">⭐ {{ current_user.points }} очков</span>
-                <a href="{{ url_for('logout') }}" class="btn-logout">Выйти</a>
+                <a href="{{ url_for('rooms') }}">{{ t.nav_rooms }}</a>
+                <a href="{{ url_for('leaderboard') }}">{{ t.nav_leaderboard }}</a>
+                <a href="{{ url_for('profile') }}">{{ t.nav_profile }}</a>
+                <span class="nav-points">⭐ {{ current_user.points }} {{ t.nav_points }}</span>
+                {% if current_user.is_admin == 1 %}
+                <a href="{{ url_for('admin_panel') }}" class="admin-badge">👑 {{ t.nav_admin }}</a>
+                {% endif %}
+                <a href="{{ url_for('logout') }}" class="btn-logout">{{ t.nav_logout }}</a>
+                <div class="lang-switch">
+                    <a href="{{ url_for('set_lang', lang='ru') }}" class="{% if lang == 'ru' %}active{% endif %}">🇷🇺</a>
+                    <a href="{{ url_for('set_lang', lang='en') }}" class="{% if lang == 'en' %}active{% endif %}">🇬🇧</a>
+                </div>
             </div>
         </div>
     </nav>
@@ -31,18 +38,18 @@
         {% endwith %}
 
         <section class="room-header">
-            <a href="{{ url_for('rooms') }}" class="back-link">← Назад к комнатам</a>
+            <a href="{{ url_for('rooms') }}" class="back-link">{{ t.room_back }}</a>
             <h1>{{ room.icon }} {{ room.title }}</h1>
             <p>{{ room.description }}</p>
             <div class="room-info">
                 <span class="difficulty difficulty-{{ room.difficulty|lower }}">{{ room.difficulty }}</span>
-                <span>⭐ {{ room.points }} очков</span>
-                <span>📋 {{ total_tasks }} заданий</span>
+                <span>⭐ {{ room.points }} {{ t.nav_points }}</span>
+                <span>📋 {{ total_tasks }} {{ t.room_tasks }}</span>
             </div>
             <div class="progress-bar large">
                 <div class="progress-fill" style="width: {{ progress }}%"></div>
             </div>
-            <p class="progress-text">{{ completed_count }}/{{ total_tasks }} заданий выполнено ({{ progress }}%)</p>
+            <p class="progress-text">{{ completed_count }}/{{ total_tasks }} {{ t.room_completed_tasks }} ({{ progress }}%)</p>
         </section>
 
         <section class="tasks-section">
@@ -50,35 +57,31 @@
             <div class="task-card {% if task.completed %}task-completed{% endif %}" id="task-{{ task.id }}">
                 <div class="task-header">
                     <h3>
-                        {% if task.completed %}
-                            ✅
-                        {% else %}
-                            📝
-                        {% endif %}
+                        {% if task.completed %}✅{% else %}📝{% endif %}
                         {{ task.title }}
                     </h3>
-                    <span class="task-points">⭐ {{ task.points }} очков</span>
+                    <span class="task-points">⭐ {{ task.points }} {{ t.nav_points }}</span>
                 </div>
                 <div class="task-body">
                     <p>{{ task.description }}</p>
                     
                     {% if task.completed %}
                         <div class="task-success">
-                            🎉 Задание выполнено! Ответ принят.
+                            {{ t.room_task_completed }}
                         </div>
                     {% else %}
                         <div class="task-input-group">
                             <input type="text" 
                                    class="answer-input" 
                                    id="answer-{{ task.id }}"
-                                   placeholder="Введите ответ..."
+                                   placeholder="{{ t.room_answer_placeholder }}"
                                    data-room-id="{{ room.id }}"
                                    data-task-id="{{ task.id }}">
                             <button class="btn-check" onclick="checkAnswer('{{ task.id }}')">
-                                Проверить
+                                {{ t.room_check }}
                             </button>
                             <button class="btn-hint" onclick="showHint('{{ task.id }}')">
-                                💡 Подсказка
+                                {{ t.room_hint }}
                             </button>
                         </div>
                         <div class="hint-box" id="hint-{{ task.id }}" style="display: none;"></div>
@@ -90,21 +93,48 @@
     </main>
 
     <footer class="footer">
-        <p>🔐 CyberLab v1.0 | Создано <a href="https://github.com/Oncillaa" target="_blank">Oncilla</a></p>
+        <p>🔐 CyberLab v1.0 | {{ t.footer_created }} <a href="https://github.com/Oncillaa" target="_blank">Oncilla</a></p>
     </footer>
 
     <script>
+        function showNotification(message, type = 'success') {
+            const oldNotifications = document.querySelectorAll('.notification');
+            oldNotifications.forEach(n => n.remove());
+            
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }
+        
         async function checkAnswer(taskId) {
             const input = document.getElementById(`answer-${taskId}`);
             const answer = input.value.trim();
             
             if (!answer) {
-                alert('Введите ответ!');
+                showNotification('{{ t.room_enter_answer }}', 'warning');
+                input.focus();
                 return;
             }
             
             const roomId = input.dataset.roomId;
             const taskIdData = input.dataset.taskId;
+            
+            const btn = input.parentElement.querySelector('.btn-check');
+            const originalText = btn.textContent;
+            btn.textContent = '⏳...';
+            btn.disabled = true;
             
             try {
                 const response = await fetch('/api/check_answer', {
@@ -127,17 +157,24 @@
                 }
                 
                 if (data.correct) {
-                    alert(data.message);
-                    window.location.reload();
+                    showNotification(`✅ ${data.message}`, 'success');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
                 } else {
-                    alert(data.message);
+                    showNotification(`❌ ${data.message}`, 'error');
                     input.classList.add('input-error');
                     setTimeout(() => {
                         input.classList.remove('input-error');
                     }, 2000);
+                    input.focus();
+                    input.select();
                 }
             } catch (error) {
-                alert('Ошибка соединения: ' + error);
+                showNotification('{{ t.room_connection_error }}: ' + error, 'error');
+            } finally {
+                btn.textContent = originalText;
+                btn.disabled = false;
             }
         }
         
@@ -145,9 +182,12 @@
             const hintBox = document.getElementById(`hint-${taskId}`);
             const input = document.getElementById(`answer-${taskId}`);
             
-            if (hintBox.style.display === 'none') {
+            if (hintBox.style.display === 'none' || hintBox.style.display === '') {
                 const roomId = input.dataset.roomId;
                 const taskIdData = input.dataset.taskId;
+                
+                hintBox.innerHTML = '<strong>{{ t.room_hint_loading }}</strong>';
+                hintBox.style.display = 'block';
                 
                 try {
                     const response = await fetch('/api/get_hint', {
@@ -163,10 +203,10 @@
                     
                     const data = await response.json();
                     
-                    hintBox.innerHTML = `<strong>💡 Подсказка:</strong> ${data.hint}`;
-                    hintBox.style.display = 'block';
+                    hintBox.innerHTML = `<strong>{{ t.room_hint_prefix }}</strong> ${data.hint}`;
                 } catch (error) {
-                    alert('Ошибка: ' + error);
+                    showNotification('{{ t.room_connection_error }}: ' + error, 'error');
+                    hintBox.style.display = 'none';
                 }
             } else {
                 hintBox.style.display = 'none';

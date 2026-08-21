@@ -341,6 +341,183 @@ ROOMS = {
                 "points": 20
             }
         ]
+    },
+    
+    "steganography": {
+        "id": "steganography",
+        "title": "🖼 Стеганография",
+        "description": "Искусство скрытой передачи информации в изображениях, аудио и тексте.",
+        "difficulty": "Сложно",
+        "points": 200,
+        "icon": "🖼",
+        "tasks": [
+            {
+                "id": "task1",
+                "title": "Что такое стеганография?",
+                "description": "Чем стеганография отличается от криптографии?",
+                "type": "text",
+                "answer": "скрывает сам факт передачи информации",
+                "hint": "Криптография шифрует содержимое, а стеганография...",
+                "points": 20
+            },
+            {
+                "id": "task2",
+                "title": "LSB метод",
+                "description": "Как расшифровывается LSB в контексте стеганографии?",
+                "type": "text",
+                "answer": "least significant bit",
+                "hint": "Наименее значимый бит.",
+                "points": 25
+            },
+            {
+                "id": "task3",
+                "title": "Инструменты",
+                "description": "Какой популярный инструмент используется для стеганографии в изображениях?",
+                "type": "text",
+                "answer": "steghide",
+                "hint": "Начинается с 'steg'.",
+                "points": 30
+            },
+            {
+                "id": "task4",
+                "title": "Скрытый флаг",
+                "description": "В изображении спрятан флаг методом LSB. Используй zsteg: flag{lsb_hidden_in_pixels}",
+                "type": "flag",
+                "answer": "flag{lsb_hidden_in_pixels}",
+                "hint": "Проверь наименее значимые биты пикселей.",
+                "points": 50
+            },
+            {
+                "id": "task5",
+                "title": "Аудио-стеганография",
+                "description": "Какой метод скрывает данные в спектре аудиофайла?",
+                "type": "text",
+                "answer": "spectrogram",
+                "hint": "Визуальное представление частот.",
+                "points": 35
+            }
+        ]
+    },
+    
+    "reverse": {
+        "id": "reverse",
+        "title": "🔧 Reverse Engineering",
+        "description": "Обратная разработка программного обеспечения.",
+        "difficulty": "Сложно",
+        "points": 250,
+        "icon": "🔧",
+        "tasks": [
+            {
+                "id": "task1",
+                "title": "Что такое RE?",
+                "description": "Как называется процесс анализа программы без доступа к исходному коду?",
+                "type": "text",
+                "answer": "reverse engineering",
+                "hint": "Обратная разработка.",
+                "points": 20
+            },
+            {
+                "id": "task2",
+                "title": "Инструменты",
+                "description": "Какой бесплатный инструмент от NSA используется для анализа бинарных файлов?",
+                "type": "text",
+                "answer": "ghidra",
+                "hint": "Разработан АНБ.",
+                "points": 30
+            },
+            {
+                "id": "task3",
+                "title": "Ассемблер",
+                "description": "Какая команда в x86 ассемблере используется для вызова функции?",
+                "type": "text",
+                "answer": "call",
+                "hint": "Переводится как 'вызвать'.",
+                "points": 25
+            },
+            {
+                "id": "task4",
+                "title": "Строки",
+                "description": "Какая команда Linux показывает текстовые строки в бинарном файле?",
+                "type": "text",
+                "answer": "strings",
+                "hint": "Переводится как 'строки'.",
+                "points": 20
+            },
+            {
+                "id": "task5",
+                "title": "Найди флаг",
+                "description": "В бинарном файле спрятан флаг. Используй strings: flag{reverse_engineering_is_fun}",
+                "type": "flag",
+                "answer": "flag{reverse_engineering_is_fun}",
+                "hint": "Ищи текстовые строки в файле.",
+                "points": 50
+            }
+        ]
+    },
+    
+    "osint": {
+        "id": "osint",
+        "title": "🔍 OSINT",
+        "description": "Поиск информации в открытых источниках.",
+        "difficulty": "Средне",
+        "points": 180,
+        "icon": "🔍",
+        "tasks": [
+            {
+                "id": "task1",
+                "title": "Что такое OSINT?",
+                "description": "Расшифруй аббревиатуру OSINT.",
+                "type": "text",
+                "answer": "open source intelligence",
+                "hint": "Разведка по открытым источникам.",
+                "points": 20
+            },
+            {
+                "id": "task2",
+                "title": "Google Dorks",
+                "description": "Какой оператор Google ищет только на определённом сайте?",
+                "type": "text",
+                "answer": "site:",
+                "hint": "Оператор для поиска по конкретному домену.",
+                "points": 25
+            },
+            {
+                "id": "task3",
+                "title": "Shodan",
+                "description": "Какой сервис называют 'поисковиком для хакеров'?",
+                "type": "text",
+                "answer": "shodan",
+                "hint": "Ищет устройства, подключённые к интернету.",
+                "points": 30
+            },
+            {
+                "id": "task4",
+                "title": "Метаданные",
+                "description": "Какая команда показывает метаданные изображения?",
+                "type": "text",
+                "answer": "exiftool",
+                "hint": "Начинается с 'exif'.",
+                "points": 25
+            },
+            {
+                "id": "task5",
+                "title": "Поиск по фото",
+                "description": "Как называется техника поиска информации по фотографии?",
+                "type": "text",
+                "answer": "reverse image search",
+                "hint": "Обратный поиск изображения.",
+                "points": 30
+            },
+            {
+                "id": "task6",
+                "title": "Найди флаг",
+                "description": "Используй Google Dorks для поиска: flag{osint_master}",
+                "type": "flag",
+                "answer": "flag{osint_master}",
+                "hint": "Попробуй поискать этот флаг в интернете.",
+                "points": 50
+            }
+        ]
     }
 }
 

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="{{ lang }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Профиль - CyberLab</title>
+    <title>{{ t.nav_profile }} - CyberLab</title>
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
@@ -12,10 +12,17 @@
         <div class="nav-container">
             <a href="{{ url_for('index') }}" class="nav-logo">🔐 CyberLab</a>
             <div class="nav-links">
-                <a href="{{ url_for('rooms') }}">Комнаты</a>
-                <a href="{{ url_for('leaderboard') }}">Рейтинг</a>
-                <span class="nav-points">⭐ {{ current_user.points }} очков</span>
-                <a href="{{ url_for('logout') }}" class="btn-logout">Выйти</a>
+                <a href="{{ url_for('rooms') }}">{{ t.nav_rooms }}</a>
+                <a href="{{ url_for('leaderboard') }}">{{ t.nav_leaderboard }}</a>
+                <span class="nav-points">⭐ {{ current_user.points }} {{ t.nav_points }}</span>
+                {% if current_user.is_admin == 1 %}
+                <a href="{{ url_for('admin_panel') }}" class="admin-badge">👑 {{ t.nav_admin }}</a>
+                {% endif %}
+                <a href="{{ url_for('logout') }}" class="btn-logout">{{ t.nav_logout }}</a>
+                <div class="lang-switch">
+                    <a href="{{ url_for('set_lang', lang='ru') }}" class="{% if lang == 'ru' %}active{% endif %}">🇷🇺</a>
+                    <a href="{{ url_for('set_lang', lang='en') }}" class="{% if lang == 'en' %}active{% endif %}">🇬🇧</a>
+                </div>
             </div>
         </div>
     </nav>
@@ -30,37 +37,56 @@
         {% endwith %}
 
         <div class="profile-header">
-            <div class="profile-avatar">👤</div>
+            <div class="profile-avatar">{{ level.icon }}</div>
             <div class="profile-info">
                 <h1>{{ current_user.username }}</h1>
                 <p>{{ current_user.email }}</p>
-                <p class="profile-points">⭐ {{ current_user.points }} очков</p>
-                <p class="profile-date">Участник с: {{ current_user.created_at[:10] }}</p>
+                <p class="profile-level">
+                    {{ level.icon }} {{ level.name }}
+                    <span class="level-progress">({{ level.progress }}% {{ t.profile_next_level }} {{ level.next_level }})</span>
+                </p>
+                <p class="profile-points">⭐ {{ current_user.points }} {{ t.nav_points }}</p>
+                <p class="profile-date">{{ t.profile_member_since }}: {{ current_user.created_at[:10] }}</p>
             </div>
         </div>
 
         <div class="profile-stats">
             <div class="stat-card">
                 <div class="stat-number">{{ stats.completed_tasks }}</div>
-                <div class="stat-label">Выполнено заданий</div>
+                <div class="stat-label">{{ t.profile_tasks_done }}</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number">{{ stats.total_attempts }}</div>
-                <div class="stat-label">Всего попыток</div>
+                <div class="stat-label">{{ t.profile_attempts }}</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number">{{ stats.accuracy }}%</div>
-                <div class="stat-label">Точность ответов</div>
+                <div class="stat-label">{{ t.profile_accuracy }}</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number">{{ current_user.points }}</div>
-                <div class="stat-label">Общий счёт</div>
+                <div class="stat-label">{{ t.profile_score }}</div>
             </div>
         </div>
+
+        {% if badges %}
+        <section class="badges-section">
+            <h2>{{ t.profile_badges }} ({{ badges|length }})</h2>
+            <div class="badges-grid">
+                {% for badge in badges %}
+                <div class="badge-card">
+                    <div class="badge-icon">{{ badge.icon }}</div>
+                    <div class="badge-name">{{ badge.name }}</div>
+                    <div class="badge-description">{{ badge.description }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        {% endif %}
     </main>
 
     <footer class="footer">
-        <p>🔐 CyberLab v1.0 | Создано <a href="https://github.com/Oncillaa" target="_blank">Oncilla</a></p>
+        <p>🔐 CyberLab v1.0 | {{ t.footer_created }} <a href="https://github.com/Oncillaa" target="_blank">Oncilla</a></p>
     </footer>
 </body>
 </html>

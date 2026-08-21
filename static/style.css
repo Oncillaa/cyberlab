@@ -35,6 +35,15 @@ body {
     min-height: 100vh;
 }
 
+a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
 /* ============ НАВИГАЦИЯ ============ */
 
 .navbar {
@@ -68,6 +77,7 @@ body {
 
 .nav-logo:hover {
     text-shadow: 0 0 20px var(--shadow);
+    text-decoration: none;
 }
 
 .nav-links {
@@ -85,6 +95,7 @@ body {
 
 .nav-links a:hover {
     color: var(--accent);
+    text-decoration: none;
 }
 
 .nav-points {
@@ -92,6 +103,31 @@ body {
     font-weight: bold;
 }
 
+/* Переключатель языка */
+.lang-switch {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.lang-switch a {
+    font-size: 1.2rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+.lang-switch a:hover {
+    background-color: var(--bg-hover);
+    text-decoration: none;
+}
+
+.lang-switch a.active {
+    background-color: var(--accent);
+    color: var(--bg-primary);
+}
+
+/* Кнопки навигации */
 .btn-logout,
 .btn-login,
 .btn-register {
@@ -110,6 +146,7 @@ body {
 .btn-login:hover {
     background-color: var(--accent);
     color: var(--bg-primary);
+    text-decoration: none;
 }
 
 .btn-register {
@@ -119,6 +156,7 @@ body {
 
 .btn-register:hover {
     background-color: var(--accent-dark);
+    text-decoration: none;
 }
 
 .btn-logout {
@@ -129,6 +167,7 @@ body {
 .btn-logout:hover {
     background-color: var(--error);
     color: var(--bg-primary);
+    text-decoration: none;
 }
 
 /* ============ КОНТЕЙНЕР ============ */
@@ -217,12 +256,14 @@ body {
     cursor: pointer;
     transition: all 0.3s;
     font-size: 1rem;
+    display: inline-block;
 }
 
 .btn-primary:hover {
     background-color: var(--accent-dark);
     transform: translateY(-2px);
     box-shadow: 0 5px 15px var(--shadow);
+    text-decoration: none;
 }
 
 .btn-secondary {
@@ -232,10 +273,12 @@ body {
     border-radius: 4px;
     text-decoration: none;
     transition: all 0.3s;
+    display: inline-block;
 }
 
 .btn-secondary:hover {
     background-color: rgba(0, 212, 255, 0.1);
+    text-decoration: none;
 }
 
 /* ============ СТАТИСТИКА ============ */
@@ -326,19 +369,23 @@ body {
     border-radius: 12px;
     font-size: 0.8rem;
     font-weight: bold;
+    white-space: nowrap;
 }
 
-.difficulty-легко {
+.difficulty-легко,
+.difficulty-easy {
     background-color: rgba(0, 255, 136, 0.1);
     color: var(--success);
 }
 
-.difficulty-средне {
+.difficulty-средне,
+.difficulty-medium {
     background-color: rgba(255, 170, 0, 0.1);
     color: var(--warning);
 }
 
-.difficulty-сложно {
+.difficulty-сложно,
+.difficulty-hard {
     background-color: rgba(255, 68, 68, 0.1);
     color: var(--error);
 }
@@ -346,6 +393,7 @@ body {
 .room-points {
     color: var(--warning);
     font-weight: bold;
+    white-space: nowrap;
 }
 
 /* ============ ПРОГРЕСС-БАР ============ */
@@ -394,6 +442,7 @@ body {
 .btn-room:hover {
     background-color: var(--accent);
     color: var(--bg-primary);
+    text-decoration: none;
 }
 
 /* ============ СТРАНИЦА КОМНАТЫ ============ */
@@ -416,6 +465,7 @@ body {
 
 .back-link:hover {
     color: var(--accent);
+    text-decoration: none;
 }
 
 .room-header h1 {
@@ -432,6 +482,7 @@ body {
     gap: 1rem;
     margin-bottom: 1rem;
     flex-wrap: wrap;
+    align-items: center;
 }
 
 /* ============ ЗАДАНИЯ ============ */
@@ -531,10 +582,16 @@ body {
     font-weight: bold;
     transition: all 0.3s;
     font-size: 1rem;
+    white-space: nowrap;
 }
 
 .btn-check:hover {
     background-color: var(--accent-dark);
+}
+
+.btn-check:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 .btn-hint {
@@ -546,6 +603,7 @@ body {
     cursor: pointer;
     transition: all 0.3s;
     font-size: 1rem;
+    white-space: nowrap;
 }
 
 .btn-hint:hover {
@@ -570,6 +628,46 @@ body {
     color: var(--success);
     text-align: center;
     font-weight: bold;
+}
+
+/* ============ УВЕДОМЛЕНИЯ ============ */
+
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    z-index: 9999;
+    font-weight: bold;
+    opacity: 0;
+    transform: translateX(100px);
+    transition: all 0.3s ease;
+    max-width: 350px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.notification.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.notification-success {
+    background-color: rgba(0, 255, 136, 0.95);
+    color: #000;
+    border: 1px solid var(--success);
+}
+
+.notification-error {
+    background-color: rgba(255, 68, 68, 0.95);
+    color: #fff;
+    border: 1px solid var(--error);
+}
+
+.notification-warning {
+    background-color: rgba(255, 170, 0, 0.95);
+    color: #000;
+    border: 1px solid var(--warning);
 }
 
 /* ============ СТРАНИЦЫ ВХОДА И РЕГИСТРАЦИИ ============ */
@@ -650,6 +748,16 @@ body {
     border: none;
     cursor: pointer;
     font-size: 1.1rem;
+    padding: 0.8rem;
+    background-color: var(--accent);
+    color: var(--bg-primary);
+    border-radius: 4px;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-full:hover {
+    background-color: var(--accent-dark);
 }
 
 .auth-link {
@@ -661,7 +769,6 @@ body {
 .auth-link a {
     color: var(--accent);
     text-decoration: none;
-    transition: text-decoration 0.3s;
 }
 
 .auth-link a:hover {
@@ -777,10 +884,189 @@ body {
     font-size: 0.9rem;
 }
 
+.profile-level {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--accent) !important;
+    margin-bottom: 0.25rem;
+}
+
+.level-progress {
+    font-size: 0.8rem;
+    color: var(--text-secondary) !important;
+    font-weight: normal;
+}
+
 .profile-stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1rem;
+}
+
+/* ============ БЕЙДЖИ ============ */
+
+.badges-section {
+    margin-top: 2rem;
+}
+
+.badges-section h2 {
+    margin-bottom: 1rem;
+}
+
+.badges-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.badge-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.badge-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+    box-shadow: 0 5px 15px var(--shadow);
+}
+
+.badge-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.badge-name {
+    font-weight: bold;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.badge-description {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* ============ АДМИН-ПАНЕЛЬ ============ */
+
+.admin-badge {
+    background-color: rgba(255, 170, 0, 0.2);
+    color: var(--warning);
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 0.8rem;
+    display: inline-block;
+}
+
+.admin-users-section {
+    margin-top: 2rem;
+}
+
+.admin-users-section h2 {
+    margin-bottom: 1rem;
+}
+
+.admin-table-wrapper {
+    overflow-x: auto;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table th {
+    background-color: var(--bg-secondary);
+    padding: 1rem;
+    text-align: left;
+    color: var(--accent);
+    font-weight: bold;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+}
+
+.admin-table td {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-primary);
+}
+
+.admin-table tr:hover td {
+    background-color: var(--bg-hover);
+}
+
+.admin-table tr:last-child td {
+    border-bottom: none;
+}
+
+.admin-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.btn-delete {
+    padding: 0.4rem 0.8rem;
+    background-color: rgba(255, 68, 68, 0.1);
+    color: var(--error);
+    border: 1px solid var(--error);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.btn-delete:hover {
+    background-color: var(--error);
+    color: #fff;
+}
+
+.btn-make-admin {
+    padding: 0.4rem 0.8rem;
+    background-color: rgba(255, 170, 0, 0.1);
+    color: var(--warning);
+    border: 1px solid var(--warning);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.btn-make-admin:hover {
+    background-color: var(--warning);
+    color: #000;
+}
+
+.btn-remove-admin {
+    padding: 0.4rem 0.8rem;
+    background-color: var(--bg-secondary);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.btn-remove-admin:hover {
+    border-color: var(--warning);
+    color: var(--warning);
+}
+
+.admin-self {
+    color: var(--text-secondary);
+    font-style: italic;
+    font-size: 0.9rem;
 }
 
 /* ============ СТРАНИЦЫ ОШИБОК ============ */
@@ -832,7 +1118,8 @@ body {
 .room-card,
 .task-card,
 .leaderboard-row,
-.stat-card {
+.stat-card,
+.badge-card {
     animation: fadeIn 0.5s ease-out;
 }
 
@@ -853,6 +1140,26 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--accent-dark);
+}
+
+/* ============ ФУТЕР ============ */
+
+.footer {
+    text-align: center;
+    padding: 2rem;
+    background-color: var(--bg-secondary);
+    border-top: 1px solid var(--border);
+    margin-top: 3rem;
+    color: var(--text-secondary);
+}
+
+.footer a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
 }
 
 /* ============ АДАПТИВНОСТЬ ============ */
@@ -906,6 +1213,25 @@ body {
     .leaderboard-rank {
         min-width: 40px;
     }
+    
+    .notification {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+    
+    .admin-table {
+        font-size: 0.85rem;
+    }
+    
+    .admin-actions {
+        flex-direction: column;
+    }
+    
+    .badges-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
 }
 
 @media (max-width: 480px) {
@@ -929,5 +1255,15 @@ body {
     
     .task-card {
         padding: 1rem;
+    }
+    
+    .profile-avatar {
+        width: 70px;
+        height: 70px;
+        font-size: 2rem;
+    }
+    
+    .stat-number {
+        font-size: 1.5rem;
     }
 }
