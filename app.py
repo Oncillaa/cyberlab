@@ -5,6 +5,7 @@ CyberLab - платформа для обучения кибербезопасн
 """
 
 import os
+import re
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session, send_file
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -60,8 +61,6 @@ def admin_required(f):
     return decorated_function
 
 
-# === ЯЗЫКОВАЯ ПОДДЕРЖКА ===
-
 def get_current_lang():
     if 'lang' in session:
         return session['lang']
@@ -83,8 +82,6 @@ def set_lang(lang):
         session['lang'] = lang
     return redirect(request.referrer or url_for('index'))
 
-
-# === МАРШРУТЫ ===
 
 @app.route('/')
 def index():
@@ -338,8 +335,6 @@ def profile():
     )
 
 
-# === АДМИН-ПАНЕЛЬ ===
-
 @app.route('/admin')
 @admin_required
 def admin_panel():
@@ -377,8 +372,6 @@ def admin_toggle_admin(user_id):
     return redirect(url_for('admin_panel'))
 
 
-# === CTF ФАЙЛЫ ===
-
 @app.route('/ctf/files')
 @login_required
 def ctf_files_list():
@@ -404,8 +397,6 @@ def ctf_generate():
     return redirect(url_for('ctf_files_list'))
 
 
-# === ВИРТУАЛЬНЫЕ МАШИНЫ ===
-
 @app.route('/vms')
 @login_required
 def vms_list():
@@ -429,8 +420,6 @@ def vm_stop(vm_id):
     flash(message, 'success' if success else 'error')
     return redirect(url_for('vms_list'))
 
-
-# === ОБУЧЕНИЕ ===
 
 @app.route('/learn')
 def learn():
@@ -456,12 +445,37 @@ def learn_article(category_id, article_id):
         flash('Статья не найдена', 'error')
         return redirect(url_for('learn'))
     
-    content_html = markdown.markdown(article["content"], extensions=['tables', 'fenced_code'])
+    content_html = markdown.markdown(
+        article["content"],
+        extensions=['tables', 'fenced_code']
+    )
     
-    return render_template('learn_article.html', article=article, content_html=content_html)
+    def add_copy_buttons(html):
+        def replace_code_block(match):
+            code = match.group(1)
+            return (
+                '<div class="code-block">'
+                f'<pre><code>{code}</code></pre>'
+                '<button class="copy-btn" onclick="copyCode(this)">📋 Копировать</button>'
+                '</div>'
+            )
+        
+        html = re.sub(
+            r'<pre><code>(.*?)</code></pre>',
+            replace_code_block,
+            html,
+            flags=re.DOTALL
+        )
+        return html
+    
+    content_html = add_copy_buttons(content_html)
+    
+    return render_template(
+        'learn_article.html',
+        article=article,
+        content_html=content_html
+    )
 
-
-# === ОБРАБОТКА ОШИБОК ===
 
 @app.errorhandler(404)
 def not_found_error(error):
@@ -472,8 +486,6 @@ def not_found_error(error):
 def internal_error(error):
     return render_template('500.html'), 500
 
-
-# === ЗАПУСК ===
 
 if __name__ == '__main__':
     if not os.path.exists('instance'):
