@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="{{ lang }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,12 +13,16 @@
             <a href="{{ url_for('index') }}" class="nav-logo">🔐 CyberLab</a>
             <div class="nav-links">
                 <a href="{{ url_for('rooms') }}">{{ t.nav_rooms }}</a>
+                <a href="{{ url_for('ctf_files_list') }}">📁 CTF</a>
+                <a href="{{ url_for('vms_list') }}">🐳 VM</a>
                 <a href="{{ url_for('leaderboard') }}">{{ t.nav_leaderboard }}</a>
                 <a href="{{ url_for('profile') }}">{{ t.nav_profile }}</a>
                 <span class="admin-badge">👑 {{ t.nav_admin }}</span>
-                <a href="{{ url_for('set_lang', lang='ru') }}">🇷🇺</a>
-                <a href="{{ url_for('set_lang', lang='en') }}">🇬🇧</a>
                 <a href="{{ url_for('logout') }}" class="btn-logout">{{ t.nav_logout }}</a>
+                <div class="lang-switch">
+                    <a href="{{ url_for('set_lang', lang='ru') }}" class="{% if lang == 'ru' %}active{% endif %}">🇷🇺</a>
+                    <a href="{{ url_for('set_lang', lang='en') }}" class="{% if lang == 'en' %}active{% endif %}">🇬🇧</a>
+                </div>
             </div>
         </div>
     </nav>
@@ -103,7 +107,7 @@
     </main>
 
     <footer class="footer">
-        <p>🔐 CyberLab v1.0 | {{ t.admin_title }}</p>
+        <p>🔐 CyberLab v1.1 | {{ t.admin_title }}</p>
     </footer>
 </body>
 </html>

@@ -13,6 +13,8 @@
             <a href="{{ url_for('index') }}" class="nav-logo">🔐 CyberLab</a>
             <div class="nav-links">
                 <a href="{{ url_for('rooms') }}">{{ t.nav_rooms }}</a>
+                <a href="{{ url_for('ctf_files_list') }}">📁 CTF</a>
+                <a href="{{ url_for('vms_list') }}">🐳 VM</a>
                 <a href="{{ url_for('leaderboard') }}">{{ t.nav_leaderboard }}</a>
                 <a href="{{ url_for('profile') }}">{{ t.nav_profile }}</a>
                 <span class="nav-points">⭐ {{ current_user.points }} {{ t.nav_points }}</span>
@@ -93,7 +95,7 @@
     </main>
 
     <footer class="footer">
-        <p>🔐 CyberLab v1.0 | {{ t.footer_created }} <a href="https://github.com/Oncillaa" target="_blank">Oncilla</a></p>
+        <p>🔐 CyberLab v1.1 | {{ t.footer_created }} <a href="https://github.com/Oncillaa" target="_blank">Oncilla</a></p>
     </footer>
 
     <script>

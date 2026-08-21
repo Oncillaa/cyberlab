@@ -42,3 +42,6 @@ instance/
 # Системные
 .DS_Store
 Thumbs.db
+
+# CTF файлы (демо)
+ctf_files/ctf_files/ 

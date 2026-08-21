@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Виртуальные машины - CyberLab</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="nav-logo">🔐 CyberLab</a>
+            <div class="nav-links">
+                <a href="{{ url_for('rooms') }}">{{ t.nav_rooms }}</a>
+                <a href="{{ url_for('leaderboard') }}">{{ t.nav_leaderboard }}</a>
+                <a href="{{ url_for('profile') }}">{{ t.nav_profile }}</a>
+                <a href="{{ url_for('ctf_files_list') }}">📁 CTF</a>
+                <span class="nav-points">⭐ {{ current_user.points }} {{ t.nav_points }}</span>
+                {% if current_user.is_admin == 1 %}
+                <a href="{{ url_for('admin_panel') }}" class="admin-badge">👑 {{ t.nav_admin }}</a>
+                {% endif %}
+                <a href="{{ url_for('logout') }}" class="btn-logout">{{ t.nav_logout }}</a>
+                <div class="lang-switch">
+                    <a href="{{ url_for('set_lang', lang='ru') }}" class="{% if lang == 'ru' %}active{% endif %}">🇷🇺</a>
+                    <a href="{{ url_for('set_lang', lang='en') }}" class="{% if lang == 'en' %}active{% endif %}">🇬🇧</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <h1>🐳 Виртуальные машины</h1>
+        <p class="subtitle">Запускай уязвимые машины для практики пентеста</p>
+
+        {% if not docker_available %}
+        <div class="alert alert-error">
+            ⚠️ Docker не установлен или не запущен. 
+            <a href="https://docs.docker.com/get-docker/" target="_blank">Установи Docker</a>
+        </div>
+        {% endif %}
+
+        <div class="vm-grid">
+            {% for vm in vms %}
+            <div class="vm-card">
+                <div class="vm-icon">{{ vm.icon }}</div>
+                <h3>{{ vm.name }}</h3>
+                <p class="vm-full-name">{{ vm.full_name }}</p>
+                <p>{{ vm.description }}</p>
+                <div class="vm-meta">
+                    <span class="difficulty difficulty-{{ vm.difficulty|lower }}">{{ vm.difficulty }}</span>
+                    <span class="vm-port">🔌 Порт: {{ vm.host_port }}</span>
+                </div>
+                <div class="vm-status">
+                    {% if vm.status == "running" %}
+                    <span class="status-badge status-running">🟢 Запущена</span>
+                    <span class="status-detail">{{ vm.status_text }}</span>
+                    {% else %}
+                    <span class="status-badge status-stopped">🔴 Остановлена</span>
+                    {% endif %}
+                </div>
+                <div class="vm-actions">
+                    {% if vm.status == "running" %}
+                    <a href="http://localhost:{{ vm.host_port }}" target="_blank" class="btn-open">🌐 Открыть</a>
+                    {% if current_user.is_admin == 1 %}
+                    <form method="POST" action="{{ url_for('vm_stop', vm_id=vm.id) }}" style="display: inline;">
+                        <button type="submit" class="btn-stop">⏹ Остановить</button>
+                    </form>
+                    {% endif %}
+                    {% else %}
+                    {% if current_user.is_admin == 1 %}
+                    <form method="POST" action="{{ url_for('vm_start', vm_id=vm.id) }}" style="display: inline;">
+                        <button type="submit" class="btn-start">▶ Запустить</button>
+                    </form>
+                    {% else %}
+                    <span class="vm-admin-only">Только для админа</span>
+                    {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <section class="vm-info">
+            <h2>📚 Как использовать</h2>
+            <div class="hint-list">
+                <div class="hint-item">
+                    <h3>1. Запусти VM</h3>
+                    <p>Нажми "Запустить" (только для админа). Подожди 30 секунд.</p>
+                </div>
+                <div class="hint-item">
+                    <h3>2. Открой в браузере</h3>
+                    <p>Нажми "Открыть" и перейди по ссылке</p>
+                </div>
+                <div class="hint-item">
+                    <h3>3. Практикуйся</h3>
+                    <p>Используй Burp Suite, sqlmap, nmap</p>
+                </div>
+                <div class="hint-item">
+                    <h3>4. Останови VM</h3>
+                    <p>После практики нажми "Остановить"</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>🔐 CyberLab v1.1 | {{ t.footer_created }} <a href="https://github.com/Oncillaa" target="_blank">Oncilla</a></p>
+    </footer>
+</body>
+</html>

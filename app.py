@@ -5,12 +5,14 @@ CyberLab - платформа для обучения кибербезопасн
 """
 
 import os
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session, send_file
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import Database, User
 from rooms_data import get_all_rooms, get_room, get_total_points
 from translations import get_translations, get_text
+from ctf_files import list_ctf_files, get_ctf_file_path, generate_all_demo_files
+from vm_manager import VMManager
 from functools import wraps
 import secrets
 
@@ -400,6 +402,65 @@ def admin_toggle_admin(user_id):
     return redirect(url_for('admin_panel'))
 
 
+# === CTF ФАЙЛЫ ===
+
+@app.route('/ctf/files')
+@login_required
+def ctf_files_list():
+    """Страница со списком CTF-файлов."""
+    files = list_ctf_files()
+    return render_template('ctf_files.html', files=files)
+
+
+@app.route('/ctf/download/<filename>')
+@login_required
+def ctf_download(filename):
+    """Скачивание CTF-файла."""
+    filepath = get_ctf_file_path(filename)
+    if filepath:
+        return send_file(filepath, as_attachment=True)
+    flash('Файл не найден', 'error')
+    return redirect(url_for('ctf_files_list'))
+
+
+@app.route('/ctf/generate')
+@admin_required
+def ctf_generate():
+    """Генерация демонстрационных CTF-файлов."""
+    generate_all_demo_files()
+    flash('Демо-файлы созданы!', 'success')
+    return redirect(url_for('ctf_files_list'))
+
+
+# === ВИРТУАЛЬНЫЕ МАШИНЫ ===
+
+@app.route('/vms')
+@login_required
+def vms_list():
+    """Страница виртуальных машин."""
+    docker_available = VMManager.check_docker()
+    vms = VMManager.get_vm_list_with_status()
+    return render_template('vms.html', vms=vms, docker_available=docker_available)
+
+
+@app.route('/vms/start/<vm_id>', methods=['POST'])
+@admin_required
+def vm_start(vm_id):
+    """Запускает виртуальную машину."""
+    success, message = VMManager.start_container(vm_id)
+    flash(message, 'success' if success else 'error')
+    return redirect(url_for('vms_list'))
+
+
+@app.route('/vms/stop/<vm_id>', methods=['POST'])
+@admin_required
+def vm_stop(vm_id):
+    """Останавливает виртуальную машину."""
+    success, message = VMManager.stop_container(vm_id)
+    flash(message, 'success' if success else 'error')
+    return redirect(url_for('vms_list'))
+
+
 # === ОБРАБОТКА ОШИБОК ===
 
 @app.errorhandler(404)
@@ -418,6 +479,10 @@ if __name__ == '__main__':
     # Создаём папку instance, если её нет
     if not os.path.exists('instance'):
         os.makedirs('instance')
+    
+    # Создаём папку для CTF-файлов
+    if not os.path.exists('ctf_files'):
+        os.makedirs('ctf_files')
     
     # Запускаем приложение
     app.run(debug=True, host='0.0.0.0', port=5000, use_reloader=False)

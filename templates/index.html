@@ -13,6 +13,10 @@
             <a href="{{ url_for('index') }}" class="nav-logo">🔐 CyberLab</a>
             <div class="nav-links">
                 <a href="{{ url_for('rooms') }}">{{ t.nav_rooms }}</a>
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('ctf_files_list') }}">📁 CTF</a>
+                <a href="{{ url_for('vms_list') }}">🐳 VM</a>
+                {% endif %}
                 <a href="{{ url_for('leaderboard') }}">{{ t.nav_leaderboard }}</a>
                 {% if current_user.is_authenticated %}
                     <a href="{{ url_for('profile') }}">{{ t.nav_profile }}</a>
@@ -57,6 +61,15 @@
                 </div>
             {% endif %}
         </section>
+
+        {% if current_user.is_authenticated %}
+        <section class="quick-links">
+            <a href="{{ url_for('rooms') }}" class="quick-link">📚 {{ t.nav_rooms }}</a>
+            <a href="{{ url_for('ctf_files_list') }}" class="quick-link">📁 CTF {{ t.ctf_files }}</a>
+            <a href="{{ url_for('vms_list') }}" class="quick-link">🐳 {{ t.nav_vms }}</a>
+            <a href="{{ url_for('leaderboard') }}" class="quick-link">🏆 {{ t.nav_leaderboard }}</a>
+        </section>
+        {% endif %}
 
         <section class="stats-section">
             <div class="stat-card">
@@ -107,7 +120,7 @@
     </main>
 
     <footer class="footer">
-        <p>🔐 CyberLab v1.0 | {{ t.footer_created }} <a href="https://github.com/Oncillaa" target="_blank">Oncilla</a></p>
+        <p>🔐 CyberLab v1.1 | {{ t.footer_created }} <a href="https://github.com/Oncillaa" target="_blank">Oncilla</a></p>
         <p>{{ t.footer_educational }}</p>
     </footer>
 </body>
