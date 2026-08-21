@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>500 - CyberLab</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="container error-page">
+        <h1>⚠️ 500</h1>
+        <p>Внутренняя ошибка сервера</p>
+        <a href="{{ url_for('index') }}" class="btn-primary">Вернуться на главную</a>
+    </main>
+</body>
+</html>

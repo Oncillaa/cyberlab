@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация - CyberLab</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="nav-logo">🔐 CyberLab</a>
+            <div class="nav-links">
+                <a href="{{ url_for('rooms') }}">Комнаты</a>
+                <a href="{{ url_for('leaderboard') }}">Рейтинг</a>
+                <a href="{{ url_for('login') }}" class="btn-login">Войти</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container auth-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="auth-card">
+            <h2>📝 Регистрация в CyberLab</h2>
+            <form method="POST" action="{{ url_for('register') }}">
+                <div class="form-group">
+                    <label for="username">Имя пользователя</label>
+                    <input type="text" id="username" name="username" required minlength="3" autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Пароль</label>
+                    <input type="password" id="password" name="password" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label for="confirm_password">Повторите пароль</label>
+                    <input type="password" id="confirm_password" name="confirm_password" required>
+                </div>
+                <button type="submit" class="btn-primary btn-full">Зарегистрироваться</button>
+            </form>
+            <p class="auth-link">Уже есть аккаунт? <a href="{{ url_for('login') }}">Войдите</a></p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>🔐 CyberLab v1.0 | Создано <a href="https://github.com/Oncillaa" target="_blank">Oncilla</a></p>
+    </footer>
+</body>
+</html>

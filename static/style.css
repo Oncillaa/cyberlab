@@ -1,0 +1,933 @@
+/* ============================================
+   CyberLab - Тёмная тема
+   Автор: Oncilla (https://github.com/Oncillaa)
+   ============================================ */
+
+:root {
+    --bg-primary: #0a0a0f;
+    --bg-secondary: #12121a;
+    --bg-card: #1a1a2e;
+    --bg-hover: #1f1f35;
+    --text-primary: #e0e0e0;
+    --text-secondary: #a0a0b0;
+    --accent: #00d4ff;
+    --accent-dark: #0099cc;
+    --success: #00ff88;
+    --error: #ff4444;
+    --warning: #ffaa00;
+    --border: #2a2a40;
+    --shadow: rgba(0, 212, 255, 0.1);
+}
+
+/* ============ БАЗОВЫЕ СТИЛИ ============ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* ============ НАВИГАЦИЯ ============ */
+
+.navbar {
+    background-color: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.nav-logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--accent);
+    text-decoration: none;
+    transition: text-shadow 0.3s;
+}
+
+.nav-logo:hover {
+    text-shadow: 0 0 20px var(--shadow);
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--accent);
+}
+
+.nav-points {
+    color: var(--warning);
+    font-weight: bold;
+}
+
+.btn-logout,
+.btn-login,
+.btn-register {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.3s;
+    font-weight: bold;
+}
+
+.btn-login {
+    color: var(--accent);
+    border: 1px solid var(--accent);
+}
+
+.btn-login:hover {
+    background-color: var(--accent);
+    color: var(--bg-primary);
+}
+
+.btn-register {
+    background-color: var(--accent);
+    color: var(--bg-primary);
+}
+
+.btn-register:hover {
+    background-color: var(--accent-dark);
+}
+
+.btn-logout {
+    color: var(--error);
+    border: 1px solid var(--error);
+}
+
+.btn-logout:hover {
+    background-color: var(--error);
+    color: var(--bg-primary);
+}
+
+/* ============ КОНТЕЙНЕР ============ */
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* ============ FLASH-СООБЩЕНИЯ ============ */
+
+.alert {
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.alert-success {
+    background-color: rgba(0, 255, 136, 0.1);
+    border: 1px solid var(--success);
+    color: var(--success);
+}
+
+.alert-error {
+    background-color: rgba(255, 68, 68, 0.1);
+    border: 1px solid var(--error);
+    color: var(--error);
+}
+
+/* ============ HERO-СЕКЦИЯ ============ */
+
+.hero {
+    text-align: center;
+    padding: 4rem 0;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.05) 0%, rgba(0, 153, 204, 0.1) 100%);
+    border-radius: 8px;
+    margin-bottom: 3rem;
+    border: 1px solid var(--border);
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--accent);
+}
+
+.hero p {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.hero-subtitle {
+    font-size: 1rem !important;
+}
+
+.hero-actions {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-primary {
+    padding: 0.8rem 2rem;
+    background-color: var(--accent);
+    color: var(--bg-primary);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 1rem;
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px var(--shadow);
+}
+
+.btn-secondary {
+    padding: 0.8rem 2rem;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.btn-secondary:hover {
+    background-color: rgba(0, 212, 255, 0.1);
+}
+
+/* ============ СТАТИСТИКА ============ */
+
+.stats-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.stat-card {
+    background-color: var(--bg-card);
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid var(--border);
+    animation: fadeIn 0.5s ease-out;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--accent);
+}
+
+.stat-label {
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+}
+
+/* ============ КОМНАТЫ ============ */
+
+.rooms-section h2 {
+    margin-bottom: 2rem;
+    color: var(--text-primary);
+}
+
+.rooms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.room-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.3s;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.room-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px var(--shadow);
+    border-color: var(--accent);
+}
+
+.room-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.room-card h3 {
+    margin-bottom: 0.5rem;
+}
+
+.room-card p {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.room-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+/* ============ СЛОЖНОСТЬ ============ */
+
+.difficulty {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.difficulty-легко {
+    background-color: rgba(0, 255, 136, 0.1);
+    color: var(--success);
+}
+
+.difficulty-средне {
+    background-color: rgba(255, 170, 0, 0.1);
+    color: var(--warning);
+}
+
+.difficulty-сложно {
+    background-color: rgba(255, 68, 68, 0.1);
+    color: var(--error);
+}
+
+.room-points {
+    color: var(--warning);
+    font-weight: bold;
+}
+
+/* ============ ПРОГРЕСС-БАР ============ */
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background-color: var(--bg-secondary);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0.5rem 0;
+}
+
+.progress-bar.large {
+    height: 12px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-dark), var(--accent));
+    border-radius: 4px;
+    transition: width 0.5s ease;
+}
+
+.progress-text {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+/* ============ КНОПКА КОМНАТЫ ============ */
+
+.btn-room {
+    display: block;
+    text-align: center;
+    padding: 0.8rem;
+    background-color: var(--bg-secondary);
+    color: var(--accent);
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: 1px solid var(--border);
+}
+
+.btn-room:hover {
+    background-color: var(--accent);
+    color: var(--bg-primary);
+}
+
+/* ============ СТРАНИЦА КОМНАТЫ ============ */
+
+.room-header {
+    background-color: var(--bg-card);
+    padding: 2rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    border: 1px solid var(--border);
+}
+
+.back-link {
+    color: var(--text-secondary);
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 1rem;
+    transition: color 0.3s;
+}
+
+.back-link:hover {
+    color: var(--accent);
+}
+
+.room-header h1 {
+    margin-bottom: 0.5rem;
+}
+
+.room-header p {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.room-info {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+/* ============ ЗАДАНИЯ ============ */
+
+.tasks-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.task-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.3s;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.task-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 5px 15px var(--shadow);
+}
+
+.task-completed {
+    border-color: var(--success);
+    background-color: rgba(0, 255, 136, 0.05);
+}
+
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.task-header h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.task-points {
+    color: var(--warning);
+    font-weight: bold;
+}
+
+.task-body p {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.task-input-group {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.answer-input {
+    flex: 1;
+    min-width: 200px;
+    padding: 0.8rem;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.answer-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 10px var(--shadow);
+}
+
+.input-error {
+    border-color: var(--error) !important;
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.btn-check {
+    padding: 0.8rem 1.5rem;
+    background-color: var(--accent);
+    color: var(--bg-primary);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+    font-size: 1rem;
+}
+
+.btn-check:hover {
+    background-color: var(--accent-dark);
+}
+
+.btn-hint {
+    padding: 0.8rem 1.5rem;
+    background-color: var(--bg-secondary);
+    color: var(--warning);
+    border: 1px solid var(--warning);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 1rem;
+}
+
+.btn-hint:hover {
+    background-color: rgba(255, 170, 0, 0.1);
+}
+
+.hint-box {
+    margin-top: 0.5rem;
+    padding: 0.8rem;
+    background-color: rgba(255, 170, 0, 0.1);
+    border: 1px solid var(--warning);
+    border-radius: 4px;
+    color: var(--warning);
+    animation: slideIn 0.3s ease-out;
+}
+
+.task-success {
+    padding: 1rem;
+    background-color: rgba(0, 255, 136, 0.1);
+    border: 1px solid var(--success);
+    border-radius: 4px;
+    color: var(--success);
+    text-align: center;
+    font-weight: bold;
+}
+
+/* ============ СТРАНИЦЫ ВХОДА И РЕГИСТРАЦИИ ============ */
+
+.auth-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.auth-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    margin-top: 2rem;
+}
+
+.auth-card h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--accent);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 10px var(--shadow);
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    margin-bottom: 0;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--accent);
+}
+
+.btn-full {
+    width: 100%;
+    margin-top: 1rem;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+
+.auth-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: var(--text-secondary);
+}
+
+.auth-link a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: text-decoration 0.3s;
+}
+
+.auth-link a:hover {
+    text-decoration: underline;
+}
+
+/* ============ ТАБЛИЦА ЛИДЕРОВ ============ */
+
+.subtitle {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+.leaderboard {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.leaderboard-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    transition: all 0.3s;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.leaderboard-row:hover {
+    border-color: var(--accent);
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px var(--shadow);
+}
+
+.leaderboard-me {
+    border-color: var(--warning);
+    background-color: rgba(255, 170, 0, 0.05);
+}
+
+.leaderboard-rank {
+    font-size: 1.5rem;
+    min-width: 50px;
+    text-align: center;
+}
+
+.leaderboard-name {
+    flex: 1;
+    font-weight: bold;
+    color: var(--text-primary);
+}
+
+.leaderboard-points {
+    color: var(--warning);
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.no-data {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+}
+
+/* ============ ПРОФИЛЬ ============ */
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    background-color: var(--bg-secondary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    border: 2px solid var(--accent);
+    flex-shrink: 0;
+}
+
+.profile-info h1 {
+    margin-bottom: 0.5rem;
+    color: var(--accent);
+}
+
+.profile-info p {
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+.profile-points {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--warning) !important;
+}
+
+.profile-date {
+    font-size: 0.9rem;
+}
+
+.profile-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+/* ============ СТРАНИЦЫ ОШИБОК ============ */
+
+.error-page {
+    text-align: center;
+    padding: 5rem 2rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.error-page h1 {
+    font-size: 6rem;
+    color: var(--accent);
+    margin-bottom: 0;
+}
+
+.error-page p {
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+}
+
+.error-hint {
+    font-size: 0.9rem !important;
+    color: var(--warning) !important;
+    padding: 0.5rem 1rem;
+    background-color: rgba(255, 170, 0, 0.1);
+    border-radius: 4px;
+    border: 1px solid var(--warning);
+}
+
+/* ============ АНИМАЦИИ ============ */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.room-card,
+.task-card,
+.leaderboard-row,
+.stat-card {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* ============ ПОЛОСА ПРОКРУТКИ ============ */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-dark);
+}
+
+/* ============ АДАПТИВНОСТЬ ============ */
+
+@media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+    }
+    
+    .hero {
+        padding: 2rem 1rem;
+    }
+    
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+    
+    .container {
+        padding: 1rem;
+    }
+    
+    .rooms-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .task-input-group {
+        flex-direction: column;
+    }
+    
+    .answer-input {
+        width: 100%;
+    }
+    
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .leaderboard-row {
+        flex-wrap: wrap;
+    }
+    
+    .leaderboard-rank {
+        min-width: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 1.5rem;
+    }
+    
+    .hero-actions {
+        flex-direction: column;
+    }
+    
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .room-card {
+        padding: 1rem;
+    }
+    
+    .task-card {
+        padding: 1rem;
+    }
+}

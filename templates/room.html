@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ room.title }} - CyberLab</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="nav-logo">🔐 CyberLab</a>
+            <div class="nav-links">
+                <a href="{{ url_for('rooms') }}">Комнаты</a>
+                <a href="{{ url_for('leaderboard') }}">Рейтинг</a>
+                <a href="{{ url_for('profile') }}">Профиль</a>
+                <span class="nav-points">⭐ {{ current_user.points }} очков</span>
+                <a href="{{ url_for('logout') }}" class="btn-logout">Выйти</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <section class="room-header">
+            <a href="{{ url_for('rooms') }}" class="back-link">← Назад к комнатам</a>
+            <h1>{{ room.icon }} {{ room.title }}</h1>
+            <p>{{ room.description }}</p>
+            <div class="room-info">
+                <span class="difficulty difficulty-{{ room.difficulty|lower }}">{{ room.difficulty }}</span>
+                <span>⭐ {{ room.points }} очков</span>
+                <span>📋 {{ total_tasks }} заданий</span>
+            </div>
+            <div class="progress-bar large">
+                <div class="progress-fill" style="width: {{ progress }}%"></div>
+            </div>
+            <p class="progress-text">{{ completed_count }}/{{ total_tasks }} заданий выполнено ({{ progress }}%)</p>
+        </section>
+
+        <section class="tasks-section">
+            {% for task in tasks %}
+            <div class="task-card {% if task.completed %}task-completed{% endif %}" id="task-{{ task.id }}">
+                <div class="task-header">
+                    <h3>
+                        {% if task.completed %}
+                            ✅
+                        {% else %}
+                            📝
+                        {% endif %}
+                        {{ task.title }}
+                    </h3>
+                    <span class="task-points">⭐ {{ task.points }} очков</span>
+                </div>
+                <div class="task-body">
+                    <p>{{ task.description }}</p>
+                    
+                    {% if task.completed %}
+                        <div class="task-success">
+                            🎉 Задание выполнено! Ответ принят.
+                        </div>
+                    {% else %}
+                        <div class="task-input-group">
+                            <input type="text" 
+                                   class="answer-input" 
+                                   id="answer-{{ task.id }}"
+                                   placeholder="Введите ответ..."
+                                   data-room-id="{{ room.id }}"
+                                   data-task-id="{{ task.id }}">
+                            <button class="btn-check" onclick="checkAnswer('{{ task.id }}')">
+                                Проверить
+                            </button>
+                            <button class="btn-hint" onclick="showHint('{{ task.id }}')">
+                                💡 Подсказка
+                            </button>
+                        </div>
+                        <div class="hint-box" id="hint-{{ task.id }}" style="display: none;"></div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>🔐 CyberLab v1.0 | Создано <a href="https://github.com/Oncillaa" target="_blank">Oncilla</a></p>
+    </footer>
+
+    <script>
+        async function checkAnswer(taskId) {
+            const input = document.getElementById(`answer-${taskId}`);
+            const answer = input.value.trim();
+            
+            if (!answer) {
+                alert('Введите ответ!');
+                return;
+            }
+            
+            const roomId = input.dataset.roomId;
+            const taskIdData = input.dataset.taskId;
+            
+            try {
+                const response = await fetch('/api/check_answer', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        room_id: roomId,
+                        task_id: taskIdData,
+                        answer: answer
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.status === 401) {
+                    window.location.href = '/login';
+                    return;
+                }
+                
+                if (data.correct) {
+                    alert(data.message);
+                    window.location.reload();
+                } else {
+                    alert(data.message);
+                    input.classList.add('input-error');
+                    setTimeout(() => {
+                        input.classList.remove('input-error');
+                    }, 2000);
+                }
+            } catch (error) {
+                alert('Ошибка соединения: ' + error);
+            }
+        }
+        
+        async function showHint(taskId) {
+            const hintBox = document.getElementById(`hint-${taskId}`);
+            const input = document.getElementById(`answer-${taskId}`);
+            
+            if (hintBox.style.display === 'none') {
+                const roomId = input.dataset.roomId;
+                const taskIdData = input.dataset.taskId;
+                
+                try {
+                    const response = await fetch('/api/get_hint', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            room_id: roomId,
+                            task_id: taskIdData
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    hintBox.innerHTML = `<strong>💡 Подсказка:</strong> ${data.hint}`;
+                    hintBox.style.display = 'block';
+                } catch (error) {
+                    alert('Ошибка: ' + error);
+                }
+            } else {
+                hintBox.style.display = 'none';
+            }
+        }
+        
+        document.querySelectorAll('.answer-input').forEach(input => {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkAnswer(this.id.split('-')[1]);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

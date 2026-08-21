@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль - CyberLab</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="nav-logo">🔐 CyberLab</a>
+            <div class="nav-links">
+                <a href="{{ url_for('rooms') }}">Комнаты</a>
+                <a href="{{ url_for('leaderboard') }}">Рейтинг</a>
+                <span class="nav-points">⭐ {{ current_user.points }} очков</span>
+                <a href="{{ url_for('logout') }}" class="btn-logout">Выйти</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="profile-header">
+            <div class="profile-avatar">👤</div>
+            <div class="profile-info">
+                <h1>{{ current_user.username }}</h1>
+                <p>{{ current_user.email }}</p>
+                <p class="profile-points">⭐ {{ current_user.points }} очков</p>
+                <p class="profile-date">Участник с: {{ current_user.created_at[:10] }}</p>
+            </div>
+        </div>
+
+        <div class="profile-stats">
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.completed_tasks }}</div>
+                <div class="stat-label">Выполнено заданий</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.total_attempts }}</div>
+                <div class="stat-label">Всего попыток</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.accuracy }}%</div>
+                <div class="stat-label">Точность ответов</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{{ current_user.points }}</div>
+                <div class="stat-label">Общий счёт</div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>🔐 CyberLab v1.0 | Создано <a href="https://github.com/Oncillaa" target="_blank">Oncilla</a></p>
+    </footer>
+</body>
+</html>
