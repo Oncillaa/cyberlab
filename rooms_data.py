@@ -5,14 +5,13 @@
 """
 
 
-# Список комнат с заданиями
 ROOMS = {
     "basics": {
         "id": "basics",
         "title": "Основы кибербезопасности",
         "description": "Первая комната для новичков. Узнай базовые понятия и термины.",
         "difficulty": "Легко",
-        "points": 100,
+        "points": 150,
         "icon": "🔰",
         "tasks": [
             {
@@ -59,6 +58,42 @@ ROOMS = {
                 "answer": "flag{cyberlab_start}",
                 "hint": "Это base64. Расшифруй.",
                 "points": 50
+            },
+            {
+                "id": "task6",
+                "title": "Самый безопасный пароль",
+                "description": "Какой пароль считается самым безопасным? (одно слово)",
+                "type": "text",
+                "answer": "passphrase",
+                "hint": "Длинная фраза вместо короткого слова.",
+                "points": 15
+            },
+            {
+                "id": "task7",
+                "title": "Двухфакторная аутентификация",
+                "description": "Как расшифровывается 2FA?",
+                "type": "text",
+                "answer": "two factor authentication",
+                "hint": "Двух...",
+                "points": 15
+            },
+            {
+                "id": "task8",
+                "title": "Фишинг",
+                "description": "Как называется атака, когда злоумышленник отправляет поддельные письма для кражи данных?",
+                "type": "text",
+                "answer": "phishing",
+                "hint": "Начинается с 'ph'.",
+                "points": 10
+            },
+            {
+                "id": "task9",
+                "title": "Второй флаг",
+                "description": "Расшифруй: RmxhZ3tjeWJlcmxhYl9zZWNvbmR9",
+                "type": "flag",
+                "answer": "Flag{cyberlab_second}",
+                "hint": "Base64.",
+                "points": 50
             }
         ]
     },
@@ -68,7 +103,7 @@ ROOMS = {
         "title": "Криптография",
         "description": "Научись расшифровывать сообщения разными методами.",
         "difficulty": "Средне",
-        "points": 150,
+        "points": 200,
         "icon": "🔐",
         "tasks": [
             {
@@ -115,6 +150,24 @@ ROOMS = {
                 "answer": "flag{caesar_is_easy}",
                 "hint": "Сдвинь каждую букву на 3 назад.",
                 "points": 40
+            },
+            {
+                "id": "task6",
+                "title": "Base32",
+                "description": "Расшифруй Base32: JBSWY3DPEBLW64TMMQQQ====",
+                "type": "flag",
+                "answer": "Hello World!",
+                "hint": "Используй base32 декодер.",
+                "points": 30
+            },
+            {
+                "id": "task7",
+                "title": "SHA-256",
+                "description": "Найди исходную строку для SHA-256: 5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+                "type": "flag",
+                "answer": "password",
+                "hint": "Самый распространённый пароль.",
+                "points": 35
             }
         ]
     },
@@ -124,7 +177,7 @@ ROOMS = {
         "title": "Веб-уязвимости",
         "description": "Изучи основные уязвимости веб-приложений.",
         "difficulty": "Средне",
-        "points": 200,
+        "points": 250,
         "icon": "🌐",
         "tasks": [
             {
@@ -180,6 +233,33 @@ ROOMS = {
                 "answer": "cookies",
                 "hint": "Маленькие файлы в браузере.",
                 "points": 20
+            },
+            {
+                "id": "task7",
+                "title": "HTTP методы",
+                "description": "Какой HTTP метод используется для отправки данных на сервер?",
+                "type": "text",
+                "answer": "post",
+                "hint": "Противоположность GET.",
+                "points": 15
+            },
+            {
+                "id": "task8",
+                "title": "Безопасный заголовок",
+                "description": "Какой заголовок защищает от XSS?",
+                "type": "text",
+                "answer": "content security policy",
+                "hint": "CSP.",
+                "points": 25
+            },
+            {
+                "id": "task9",
+                "title": "Второй флаг",
+                "description": "Флаг в cookie: flag{cookies_are_yummy}",
+                "type": "flag",
+                "answer": "flag{cookies_are_yummy}",
+                "hint": "Проверь cookie.",
+                "points": 50
             }
         ]
     },
@@ -189,7 +269,7 @@ ROOMS = {
         "title": "Сетевые технологии",
         "description": "Основы сетевого взаимодействия и протоколов.",
         "difficulty": "Средне",
-        "points": 180,
+        "points": 200,
         "icon": "📡",
         "tasks": [
             {
@@ -236,6 +316,33 @@ ROOMS = {
                 "answer": "icmp",
                 "hint": "Internet Control Message Protocol.",
                 "points": 30
+            },
+            {
+                "id": "task6",
+                "title": "Порт HTTPS",
+                "description": "На каком порту работает HTTPS?",
+                "type": "text",
+                "answer": "443",
+                "hint": "HTTP + шифрование.",
+                "points": 15
+            },
+            {
+                "id": "task7",
+                "title": "Порт DNS",
+                "description": "На каком порту работает DNS?",
+                "type": "text",
+                "answer": "53",
+                "hint": "Двузначное число.",
+                "points": 15
+            },
+            {
+                "id": "task8",
+                "title": "Порт MySQL",
+                "description": "На каком порту работает MySQL?",
+                "type": "text",
+                "answer": "3306",
+                "hint": "Четырёхзначное число.",
+                "points": 20
             }
         ]
     },
@@ -292,7 +399,7 @@ ROOMS = {
         "title": "Linux для хакеров",
         "description": "Основные команды Linux для пентеста.",
         "difficulty": "Легко",
-        "points": 120,
+        "points": 150,
         "icon": "🐧",
         "tasks": [
             {
@@ -339,6 +446,33 @@ ROOMS = {
                 "answer": "sudo",
                 "hint": "SuperUser DO.",
                 "points": 20
+            },
+            {
+                "id": "task6",
+                "title": "Просмотр процессов",
+                "description": "Какая команда показывает все запущенные процессы?",
+                "type": "text",
+                "answer": "ps aux",
+                "hint": "Process Status.",
+                "points": 15
+            },
+            {
+                "id": "task7",
+                "title": "Поиск текста",
+                "description": "Какая команда ищет текст в файле?",
+                "type": "text",
+                "answer": "grep",
+                "hint": "Global Regular Expression Print.",
+                "points": 10
+            },
+            {
+                "id": "task8",
+                "title": "Скачивание файла",
+                "description": "Какая команда скачивает файл из интернета?",
+                "type": "text",
+                "answer": "wget",
+                "hint": "Начинается с 'w'.",
+                "points": 15
             }
         ]
     },
@@ -460,7 +594,7 @@ ROOMS = {
         "title": "OSINT",
         "description": "Поиск информации в открытых источниках.",
         "difficulty": "Средне",
-        "points": 180,
+        "points": 200,
         "icon": "🔍",
         "tasks": [
             {
@@ -516,6 +650,24 @@ ROOMS = {
                 "answer": "flag{osint_master}",
                 "hint": "Попробуй поискать этот флаг в интернете.",
                 "points": 50
+            },
+            {
+                "id": "task7",
+                "title": "WHOIS",
+                "description": "Какая команда показывает информацию о домене?",
+                "type": "text",
+                "answer": "whois",
+                "hint": "Кто владелец домена?",
+                "points": 20
+            },
+            {
+                "id": "task8",
+                "title": "Архив сайтов",
+                "description": "Какой сервис показывает старые версии сайтов?",
+                "type": "text",
+                "answer": "wayback machine",
+                "hint": "Машина времени для сайтов.",
+                "points": 25
             }
         ]
     }
@@ -523,17 +675,14 @@ ROOMS = {
 
 
 def get_all_rooms():
-    """Возвращает список всех комнат."""
     return list(ROOMS.values())
 
 
 def get_room(room_id):
-    """Возвращает комнату по ID."""
     return ROOMS.get(room_id)
 
 
 def get_total_points(room_id):
-    """Возвращает общее количество очков за комнату."""
     room = get_room(room_id)
     if not room:
         return 0

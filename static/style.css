@@ -1,5 +1,5 @@
 /* ============================================
-   CyberLab - Тёмная тема
+   CyberLab - Тёмная тема в стиле TryHackMe
    Автор: Oncilla (https://github.com/Oncillaa)
    ============================================ */
 
@@ -44,7 +44,7 @@ a:hover {
     text-decoration: none;
 }
 
-/* НАВИГАЦИЯ */
+/* ============ НАВИГАЦИЯ ============ */
 .navbar {
     background-color: var(--bg-secondary);
     border-bottom: 1px solid var(--border);
@@ -91,6 +91,11 @@ a:hover {
 
 .nav-links a:hover {
     color: var(--accent);
+}
+
+.nav-active {
+    color: var(--accent) !important;
+    font-weight: bold;
 }
 
 .nav-points {
@@ -151,14 +156,14 @@ a:hover {
     color: #fff;
 }
 
-/* КОНТЕЙНЕР */
+/* ============ КОНТЕЙНЕР ============ */
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 2rem;
 }
 
-/* FLASH */
+/* ============ FLASH ============ */
 .alert {
     padding: 1rem 1.5rem;
     border-radius: 8px;
@@ -178,7 +183,7 @@ a:hover {
     color: var(--error);
 }
 
-/* КНОПКИ */
+/* ============ КНОПКИ ============ */
 .btn-primary {
     padding: 0.8rem 2rem;
     background-color: var(--accent);
@@ -211,7 +216,7 @@ a:hover {
     color: var(--accent);
 }
 
-/* HERO */
+/* ============ HERO ============ */
 .hero {
     text-align: center;
     padding: 4rem 2rem;
@@ -240,7 +245,7 @@ a:hover {
     flex-wrap: wrap;
 }
 
-/* БЫСТРЫЕ ССЫЛКИ */
+/* ============ БЫСТРЫЕ ССЫЛКИ ============ */
 .quick-links {
     display: flex;
     gap: 1rem;
@@ -267,7 +272,7 @@ a:hover {
     color: var(--accent);
 }
 
-/* СТАТИСТИКА */
+/* ============ СТАТИСТИКА ============ */
 .stats-section {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -293,7 +298,7 @@ a:hover {
     color: var(--text-secondary);
 }
 
-/* КОМНАТЫ */
+/* ============ КОМНАТЫ ============ */
 .rooms-section h2 {
     margin-bottom: 2rem;
 }
@@ -341,7 +346,7 @@ a:hover {
     margin-bottom: 1rem;
 }
 
-/* СЛОЖНОСТЬ */
+/* ============ СЛОЖНОСТЬ ============ */
 .difficulty {
     padding: 0.3rem 0.8rem;
     border-radius: 20px;
@@ -369,7 +374,7 @@ a:hover {
     font-weight: bold;
 }
 
-/* ПРОГРЕСС */
+/* ============ ПРОГРЕСС ============ */
 .progress-bar {
     width: 100%;
     height: 8px;
@@ -412,7 +417,7 @@ a:hover {
     color: var(--bg-primary);
 }
 
-/* ШАПКА КОМНАТЫ */
+/* ============ ШАПКА КОМНАТЫ ============ */
 .room-header {
     background-color: var(--bg-card);
     padding: 2rem;
@@ -448,7 +453,7 @@ a:hover {
     color: var(--accent);
 }
 
-/* ЗАДАНИЯ */
+/* ============ ЗАДАНИЯ ============ */
 .tasks-section {
     display: flex;
     flex-direction: column;
@@ -551,7 +556,7 @@ a:hover {
     font-weight: bold;
 }
 
-/* УВЕДОМЛЕНИЯ */
+/* ============ УВЕДОМЛЕНИЯ ============ */
 .notification {
     position: fixed;
     top: 20px;
@@ -586,7 +591,7 @@ a:hover {
     color: #000;
 }
 
-/* ФОРМЫ */
+/* ============ ФОРМЫ ============ */
 .auth-container {
     max-width: 500px;
     margin: 0 auto;
@@ -652,7 +657,7 @@ a:hover {
     color: var(--text-secondary);
 }
 
-/* ЛИДЕРЫ */
+/* ============ ЛИДЕРЫ ============ */
 .subtitle {
     color: var(--text-secondary);
     margin-bottom: 2rem;
@@ -707,7 +712,7 @@ a:hover {
     color: var(--text-secondary);
 }
 
-/* ПРОФИЛЬ */
+/* ============ ПРОФИЛЬ ============ */
 .profile-header {
     display: flex;
     align-items: center;
@@ -748,7 +753,7 @@ a:hover {
     gap: 1rem;
 }
 
-/* БЕЙДЖИ */
+/* ============ БЕЙДЖИ ============ */
 .badges-section {
     margin-top: 2rem;
 }
@@ -780,7 +785,7 @@ a:hover {
     color: var(--text-secondary);
 }
 
-/* АДМИН */
+/* ============ АДМИН ============ */
 .admin-badge {
     background-color: rgba(255, 170, 0, 0.2);
     color: var(--warning);
@@ -814,7 +819,7 @@ a:hover {
     border-bottom: 1px solid var(--border);
 }
 
-/* CTF */
+/* ============ CTF ============ */
 .ctf-files-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -847,7 +852,7 @@ a:hover {
     font-weight: bold;
 }
 
-/* VM */
+/* ============ VM ============ */
 .vm-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -876,19 +881,27 @@ a:hover {
     color: var(--error);
 }
 
-/* ОБУЧЕНИЕ */
+/* ============ ОБУЧЕНИЕ ============ */
 .learn-hero {
     text-align: center;
     padding: 3rem 2rem;
-    background: linear-gradient(135deg, rgba(0, 212, 255, 0.08), rgba(0, 153, 204, 0.15));
+    background: linear-gradient(135deg, #1a1a2e 0%, #0d0d1a 50%, #1a1a2e 100%);
     border-radius: 16px;
     margin-bottom: 2rem;
-    border: 1px solid var(--border);
+    border: 1px solid var(--accent);
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.1);
 }
 
 .learn-hero h1 {
-    font-size: 2.5rem;
+    font-size: 3rem;
     color: var(--accent);
+    margin-bottom: 0.5rem;
+}
+
+.learn-hero p {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
 }
 
 .learn-hero-stats {
@@ -896,12 +909,12 @@ a:hover {
     gap: 1rem;
     justify-content: center;
     flex-wrap: wrap;
-    margin-top: 1rem;
 }
 
 .learn-hero-stats span {
     padding: 0.5rem 1.2rem;
     background-color: var(--bg-card);
+    border: 1px solid var(--border);
     border-radius: 20px;
     font-weight: bold;
 }
@@ -918,6 +931,13 @@ a:hover {
     border-radius: 16px;
     padding: 1.5rem;
     text-align: center;
+    transition: all 0.3s;
+}
+
+.guide-step:hover {
+    border-color: var(--accent);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px var(--shadow);
 }
 
 .guide-step-number {
@@ -930,6 +950,7 @@ a:hover {
     align-items: center;
     justify-content: center;
     font-weight: bold;
+    font-size: 1.2rem;
     margin: 0 auto 1rem;
 }
 
@@ -947,12 +968,13 @@ a:hover {
     color: var(--text-primary);
     display: flex;
     flex-direction: column;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .learn-category-card:hover {
-    transform: translateY(-5px);
     border-color: var(--accent);
-    box-shadow: 0 10px 25px var(--shadow);
+    box-shadow: 0 15px 40px rgba(0, 212, 255, 0.15);
+    transform: translateY(-8px) scale(1.02);
     color: var(--text-primary);
 }
 
@@ -960,19 +982,19 @@ a:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
 }
 
 .learn-category-icon {
-    font-size: 2.5rem;
+    font-size: 3rem;
 }
 
 .learn-article-badge {
     padding: 0.3rem 0.8rem;
-    background-color: var(--bg-secondary);
+    background-color: var(--accent);
+    color: var(--bg-primary);
     border-radius: 20px;
     font-size: 0.8rem;
-    color: var(--accent);
     font-weight: bold;
 }
 
@@ -1004,9 +1026,17 @@ a:hover {
     gap: 0.5rem;
     padding: 1rem;
     background-color: var(--bg-secondary);
+    border: 1px solid var(--border);
     border-radius: 12px;
     color: var(--text-primary);
     min-width: 100px;
+    transition: all 0.3s;
+}
+
+.beginner-step:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-3px);
 }
 
 .beginner-arrow {
@@ -1014,6 +1044,7 @@ a:hover {
     font-size: 1.5rem;
 }
 
+/* ============ СТАТЬИ ============ */
 .category-header {
     text-align: center;
     padding: 2rem;
@@ -1044,12 +1075,14 @@ a:hover {
     border-radius: 16px;
     padding: 1.5rem;
     color: var(--text-primary);
+    transition: all 0.3s;
 }
 
 .article-card:hover {
     border-color: var(--accent);
     transform: translateX(5px);
     color: var(--text-primary);
+    box-shadow: 0 5px 15px var(--shadow);
 }
 
 .article-card-icon {
@@ -1068,7 +1101,6 @@ a:hover {
     color: var(--text-secondary);
 }
 
-/* КОНТЕНТ СТАТЬИ */
 .article-content {
     background-color: var(--bg-card);
     border: 1px solid var(--border);
@@ -1109,15 +1141,7 @@ a:hover {
     border: 1px solid var(--border);
 }
 
-.article-content code {
-    background-color: var(--bg-secondary);
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
-    color: var(--accent);
-    font-family: 'Courier New', monospace;
-}
-
-/* КНОПКИ КОПИРОВАНИЯ */
+/* ============ КНОПКИ КОПИРОВАНИЯ ============ */
 .code-block {
     position: relative;
     margin: 1rem 0;
@@ -1183,7 +1207,7 @@ a:hover {
     font-weight: bold;
 }
 
-/* ФУТЕР */
+/* ============ ФУТЕР ============ */
 .footer {
     text-align: center;
     padding: 2rem;
@@ -1193,7 +1217,7 @@ a:hover {
     color: var(--text-secondary);
 }
 
-/* АДАПТИВНОСТЬ */
+/* ============ АДАПТИВНОСТЬ ============ */
 @media (max-width: 768px) {
     .nav-container {
         flex-direction: column;
@@ -1204,6 +1228,7 @@ a:hover {
         gap: 1rem;
     }
     .hero h1 { font-size: 1.8rem; }
+    .learn-hero h1 { font-size: 2rem; }
     .container { padding: 1rem; }
     .rooms-grid, .vm-grid, .ctf-files-grid, .learn-categories, .guide-steps {
         grid-template-columns: 1fr;

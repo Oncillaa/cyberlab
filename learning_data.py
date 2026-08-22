@@ -10,56 +10,56 @@ LEARNING_CATEGORIES = [
         "title": "🔰 Основы кибербезопасности",
         "description": "Базовые понятия: CIA Triad, типы хакеров, модели угроз",
         "icon": "🔰",
-        "article_count": 2
+        "article_count": 4
     },
     {
         "id": "crypto",
         "title": "🔐 Криптография",
         "description": "Шифрование, хеширование, кодирование: Base64, ROT13, AES, RSA",
         "icon": "🔐",
-        "article_count": 3
+        "article_count": 5
     },
     {
         "id": "web",
         "title": "🌐 Веб-уязвимости",
         "description": "SQLi, XSS, CSRF, File Inclusion, Directory Traversal",
         "icon": "🌐",
-        "article_count": 2
+        "article_count": 4
     },
     {
         "id": "network",
         "title": "📡 Сетевые технологии",
         "description": "TCP/IP, DNS, порты, протоколы, OSI модель",
         "icon": "📡",
-        "article_count": 1
+        "article_count": 3
     },
     {
         "id": "linux",
         "title": "🐧 Linux для хакеров",
         "description": "Команды, права, bash-скрипты, автоматизация",
         "icon": "🐧",
-        "article_count": 1
+        "article_count": 3
     },
     {
         "id": "steganography",
         "title": "🖼 Стеганография",
         "description": "Скрытие данных в изображениях, аудио, тексте",
         "icon": "🖼",
-        "article_count": 1
+        "article_count": 2
     },
     {
         "id": "reverse",
         "title": "🔧 Reverse Engineering",
         "description": "Анализ бинарных файлов, дизассемблирование, отладка",
         "icon": "🔧",
-        "article_count": 1
+        "article_count": 2
     },
     {
         "id": "osint",
         "title": "🔍 OSINT",
         "description": "Поиск информации в открытых источниках",
         "icon": "🔍",
-        "article_count": 2
+        "article_count": 3
     }
 ]
 
@@ -72,7 +72,7 @@ ARTICLES = {
         "reading_time": 7,
         "difficulty": "Легко",
         "content": """
-# CIA Triad
+# CIA Triad — три кита безопасности
 
 CIA Triad — это три главных принципа информационной безопасности.
 
@@ -86,7 +86,7 @@ CIA Triad — это три главных принципа информацио
 
 Данные должны видеть только те, кому разрешено.
 
-**Методы защиты:** шифрование (AES, RSA), двухфакторная аутентификация, права доступа.
+**Методы защиты:** шифрование (AES, RSA), двухфакторная аутентификация.
 
 ## Целостность
 
@@ -102,7 +102,7 @@ CIA Triad — это три главных принципа информацио
 
 ## Практика
 
-Зайди в комнату «Основы кибербезопасности» и ответь на вопрос.
+Зайди в комнату «Основы кибербезопасности».
 """
     },
     "basics_hackers": {
@@ -115,221 +115,38 @@ CIA Triad — это три главных принципа информацио
         "content": """
 # Типы хакеров
 
-| Тип | Кто это |
-|-----|---------|
-| White Hat | Этичные, работают легально |
-| Black Hat | Неэтичные, взламывают незаконно |
-| Grey Hat | На грани, без злого умысла |
+| Тип | Легальность |
+|-----|-------------|
+| White Hat | Законно |
+| Black Hat | Незаконно |
+| Grey Hat | Спорно |
 
 ## White Hat
 
-Тестируют сайты на уязвимости, ищут баги за деньги, помогают компаниям.
+Тестируют системы с разрешения. Баг-баунти охотники, пентестеры.
 
 ## Black Hat
 
-Крадут данные, шантажируют, продают доступы. Наказание в РФ — до 10 лет.
+Взламывают незаконно. Наказание в РФ — до 10 лет.
 
 ## Grey Hat
 
-Взламывают «ради интереса», сообщают владельцу о проблеме.
+Взламывают «ради интереса», сообщают владельцу.
 
 ## Практика
 
 Зайди в комнату «Основы кибербезопасности».
 """
     },
-    "crypto_base64": {
-        "id": "crypto_base64",
-        "category": "crypto",
-        "title": "Base64 — кодирование, не шифрование",
-        "short_description": "Как работает Base64 и почему это НЕ шифрование",
-        "reading_time": 8,
-        "difficulty": "Легко",
-        "content": """
-# Base64 — кодирование, не шифрование
-
-Base64 — способ представить бинарные данные в виде текста.
-
-**Важно:** Base64 — это КОДИРОВАНИЕ, а НЕ ШИФРОВАНИЕ.
-
-## Примеры
-
-Hello → SGVsbG8=
-
-CyberLab → Q3liZXJMYWI=
-
-flag{test} → ZmxhZ3t0ZXN0fQ==
-
-## Команды Linux
-
-Кодировать: echo -n "Hello" | base64
-
-Декодировать: echo "SGVsbG8=" | base64 -d
-
-## Команды Windows PowerShell
-
-Кодировать: [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes("Hello"))
-
-Декодировать: [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String("SGVsbG8="))
-
-## Практика
-
-Расшифруй: Q3liZXJMYWIgSXMgQXdlc29tZSE=
-"""
-    },
-    "crypto_rot13": {
-        "id": "crypto_rot13",
-        "category": "crypto",
-        "title": "ROT13 — шифр сдвига на 13",
-        "short_description": "Простой шифр, который можно расшифровать в голове",
-        "reading_time": 6,
-        "difficulty": "Легко",
-        "content": """
-# ROT13 — шифр сдвига на 13
-
-ROT13 заменяет каждую букву на букву через 13 позиций.
-
-**Особенность:** Применение ROT13 дважды возвращает исходный текст.
-
-## Примеры
-
-Hello → Uryyb
-
-CyberLab → PloreYnO
-
-flag → synt
-
-## Команды Linux
-
-Расшифровать: echo "Uryyb" | tr 'A-Za-z' 'N-ZA-Mn-za-m'
-
-## Windows PowerShell
-
-Используй онлайн: https://rot13.com
-
-## Практика
-
-Расшифруй: PloreYnO vf pbby!
-"""
-    },
-    "crypto_hash": {
-        "id": "crypto_hash",
-        "category": "crypto",
-        "title": "Хеширование: MD5, SHA-1, SHA-256",
-        "short_description": "Что такое хеш, как его вычислить и взломать",
-        "reading_time": 9,
-        "difficulty": "Средне",
-        "content": """
-# Хеширование: MD5, SHA-1, SHA-256
-
-Хеш — это «отпечаток» данных. Любой текст → строка фиксированной длины.
-
-## Популярные алгоритмы
-
-| Алгоритм | Длина | Безопасность |
-|----------|-------|-------------|
-| MD5 | 32 hex | Взломан |
-| SHA-1 | 40 hex | Взломан |
-| SHA-256 | 64 hex | Безопасен |
-
-## Примеры
-
-MD5("password") = 5f4dcc3b5aa765d61d8327deb882cf99
-
-## Команды Linux
-
-Вычислить MD5: echo -n "password" | md5sum
-
-Вычислить SHA-256: echo -n "password" | sha256sum
-
-## Команды Windows PowerShell
-
-Вычислить хеш файла: Get-FileHash -Algorithm SHA256 file.txt
-
-## Практика
-
-Найди исходную строку для MD5: 5f4dcc3b5aa765d61d8327deb882cf99
-"""
-    },
-    "web_sqli": {
-        "id": "web_sqli",
-        "category": "web",
-        "title": "SQL Injection — основы",
-        "short_description": "Как работает SQL-инъекция",
-        "reading_time": 8,
-        "difficulty": "Средне",
-        "content": """
-# SQL Injection — основы
-
-SQL Injection — это уязвимость, позволяющая внедрить SQL-код в запрос к базе данных.
-
-## Пример атаки
-
-Легитимный запрос: SELECT * FROM users WHERE id = 1
-
-Атакующий запрос: SELECT * FROM users WHERE id = 1 OR 1=1
-
-Результат: вернутся ВСЕ записи, потому что 1=1 всегда истинно.
-
-## Примеры атак
-
-Обход авторизации: ' OR '1'='1' --
-
-Вывод всех пользователей: ' UNION SELECT username, password FROM users --
-
-## Защита
-
-Параметризованные запросы (Prepared Statements), экранирование ввода, WAF.
-
-## Практика
-
-Открой DVWA → SQL Injection → введи 1' OR '1'='1
-"""
-    },
-    "web_xss": {
-        "id": "web_xss",
-        "category": "web",
-        "title": "XSS — межсайтовый скриптинг",
-        "short_description": "Типы XSS и как они работают",
-        "reading_time": 7,
-        "difficulty": "Средне",
-        "content": """
-# XSS — межсайтовый скриптинг
-
-XSS — уязвимость, позволяющая внедрить JavaScript на страницу.
-
-## Типы XSS
-
-| Тип | Описание |
-|-----|----------|
-| Reflected | Выполняется сразу |
-| Stored | Сохраняется на сервере |
-| DOM-based | Уязвимость в JavaScript |
-
-## Пример атаки
-
-<script>alert('XSS')</script>
-
-## Защита
-
-Экранирование HTML, Content Security Policy, HttpOnly cookie.
-
-## Практика
-
-В DVWA → XSS (Reflected) введи: <script>alert('XSS')</script>
-"""
-    },
-    "network_osi": {
-        "id": "network_osi",
-        "category": "network",
+    "basics_osi_model": {
+        "id": "basics_osi_model",
+        "category": "basics",
         "title": "Модель OSI — 7 уровней",
         "short_description": "Понимание сетевой модели",
-        "reading_time": 6,
+        "reading_time": 8,
         "difficulty": "Средне",
         "content": """
-# Модель OSI — 7 уровней
-
-OSI — эталонная модель, описывающая передачу данных по сети.
+# Модель OSI
 
 | # | Уровень | Протоколы |
 |---|---------|-----------|
@@ -346,39 +163,382 @@ OSI — эталонная модель, описывающая передачу
 Пройди комнату «Сетевые технологии».
 """
     },
-    "linux_commands": {
-        "id": "linux_commands",
-        "category": "linux",
-        "title": "Команды Linux для хакера",
-        "short_description": "ls, cd, cat, grep, find, chmod",
+    "basics_common_ports": {
+        "id": "basics_common_ports",
+        "category": "basics",
+        "title": "Порты, которые должен знать каждый",
+        "short_description": "Основные порты",
+        "reading_time": 5,
+        "difficulty": "Легко",
+        "content": """
+# Порты
+
+| Порт | Протокол | Назначение |
+|------|----------|------------|
+| 21 | FTP | Файлы |
+| 22 | SSH | Удалённый доступ |
+| 80 | HTTP | Веб |
+| 443 | HTTPS | Веб с шифрованием |
+| 3306 | MySQL | База данных |
+| 3389 | RDP | Рабочий стол |
+
+## Проверка порта
+
+Linux: nc -zv localhost 22
+
+Windows: Test-NetConnection localhost -Port 22
+
+## Практика
+
+Пройди комнату «Сетевые технологии».
+"""
+    },
+    "crypto_base64": {
+        "id": "crypto_base64",
+        "category": "crypto",
+        "title": "Base64 — кодирование, не шифрование",
+        "short_description": "Как работает Base64",
         "reading_time": 8,
         "difficulty": "Легко",
         "content": """
-# Команды Linux для хакера
+# Base64
+
+Base64 — способ представить бинарные данные в виде текста.
+
+**Важно:** это КОДИРОВАНИЕ, а НЕ ШИФРОВАНИЕ.
+
+## Примеры
+
+Hello → SGVsbG8=
+
+CyberLab → Q3liZXJMYWI=
+
+## Команды
+
+Linux: echo -n "Hello" | base64
+
+Linux декод: echo "SGVsbG8=" | base64 -d
+
+Windows: [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes("Hello"))
+
+Python: import base64; base64.b64encode(b"Hello")
+
+## Практика
+
+Расшифруй: Q3liZXJMYWIgSXMgQXdlc29tZSE=
+"""
+    },
+    "crypto_rot13": {
+        "id": "crypto_rot13",
+        "category": "crypto",
+        "title": "ROT13 — шифр сдвига на 13",
+        "short_description": "Простой шифр",
+        "reading_time": 5,
+        "difficulty": "Легко",
+        "content": """
+# ROT13
+
+ROT13 заменяет букву на букву через 13 позиций.
+
+## Примеры
+
+Hello → Uryyb
+
+CyberLab → PloreYnO
+
+## Команды
+
+Linux: echo "Uryyb" | tr 'A-Za-z' 'N-ZA-Mn-za-m'
+
+Python: import codecs; codecs.decode("Uryyb", "rot_13")
+
+## Практика
+
+Расшифруй: PloreYnO vf pbby!
+"""
+    },
+    "crypto_hash": {
+        "id": "crypto_hash",
+        "category": "crypto",
+        "title": "Хеширование",
+        "short_description": "MD5, SHA-1, SHA-256",
+        "reading_time": 9,
+        "difficulty": "Средне",
+        "content": """
+# Хеширование
+
+Хеш — «отпечаток» данных.
+
+| Алгоритм | Безопасность |
+|----------|-------------|
+| MD5 | Взломан |
+| SHA-1 | Взломан |
+| SHA-256 | Безопасен |
+
+## Пример
+
+MD5("password") = 5f4dcc3b5aa765d61d8327deb882cf99
+
+## Команды
+
+Linux: echo -n "password" | md5sum
+
+Windows: Get-FileHash -Algorithm SHA256 file.txt
+
+Python: import hashlib; hashlib.md5(b"password").hexdigest()
+
+## Практика
+
+Найди исходную строку для MD5: 5f4dcc3b5aa765d61d8327deb882cf99
+"""
+    },
+    "crypto_caesar": {
+        "id": "crypto_caesar",
+        "category": "crypto",
+        "title": "Шифр Цезаря",
+        "short_description": "Классический шифр сдвига",
+        "reading_time": 6,
+        "difficulty": "Легко",
+        "content": """
+# Шифр Цезаря
+
+Заменяет букву на букву со сдвигом на N позиций.
+
+## Пример (сдвиг 3)
+
+HELLO → KHOOR
+
+## Команды
+
+Linux: echo "KHOOR" | tr 'A-Za-z' 'X-ZA-Wx-za-w'
+
+## Практика
+
+Расшифруй: iodj{fdhvdu_lv_hdvb} (сдвиг 3)
+"""
+    },
+    "crypto_aes_rsa": {
+        "id": "crypto_aes_rsa",
+        "category": "crypto",
+        "title": "AES и RSA",
+        "short_description": "Симметричное и асимметричное",
+        "reading_time": 10,
+        "difficulty": "Сложно",
+        "content": """
+# AES и RSA
+
+## AES (симметричное)
+
+Один ключ для шифрования и расшифровки. Быстрый.
+
+## RSA (асимметричное)
+
+Пара ключей: публичный и приватный. Медленный.
+
+## Гибрид
+
+RSA шифрует ключ AES, AES шифрует данные.
+
+## Практика
+
+Пройди комнату «Криптография».
+"""
+    },
+    "web_sqli": {
+        "id": "web_sqli",
+        "category": "web",
+        "title": "SQL Injection",
+        "short_description": "Основы SQL-инъекций",
+        "reading_time": 8,
+        "difficulty": "Средне",
+        "content": """
+# SQL Injection
+
+SQLi — внедрение SQL-кода в запрос.
+
+## Пример
+
+SELECT * FROM users WHERE id = 1 OR 1=1
+
+## Обход авторизации
+
+' OR '1'='1' --
+
+## Защита
+
+Параметризованные запросы, WAF.
+
+## Практика
+
+DVWA → SQL Injection → 1' OR '1'='1
+"""
+    },
+    "web_xss": {
+        "id": "web_xss",
+        "category": "web",
+        "title": "XSS",
+        "short_description": "Межсайтовый скриптинг",
+        "reading_time": 7,
+        "difficulty": "Средне",
+        "content": """
+# XSS
+
+Внедрение JavaScript на страницу.
+
+## Типы
+
+| Тип | Описание |
+|-----|----------|
+| Reflected | Сразу |
+| Stored | Сохраняется |
+| DOM-based | В JavaScript |
+
+## Пример
+
+<script>alert('XSS')</script>
+
+## Практика
+
+DVWA → XSS (Reflected)
+"""
+    },
+    "web_csrf": {
+        "id": "web_csrf",
+        "category": "web",
+        "title": "CSRF",
+        "short_description": "Подделка запросов",
+        "reading_time": 6,
+        "difficulty": "Средне",
+        "content": """
+# CSRF
+
+Заставляет пользователя выполнить нежелательное действие.
+
+## Защита
+
+CSRF-токены, SameSite cookie.
+
+## Практика
+
+DVWA → CSRF
+"""
+    },
+    "web_file_upload": {
+        "id": "web_file_upload",
+        "category": "web",
+        "title": "Загрузка файлов",
+        "short_description": "Опасная уязвимость",
+        "reading_time": 7,
+        "difficulty": "Средне",
+        "content": """
+# Загрузка файлов
+
+Можно загрузить PHP-shell на сервер.
+
+## Защита
+
+Проверять расширение, переименовывать файлы.
+
+## Практика
+
+DVWA → File Upload
+"""
+    },
+    "network_osi": {
+        "id": "network_osi",
+        "category": "network",
+        "title": "Модель OSI",
+        "short_description": "7 уровней",
+        "reading_time": 6,
+        "difficulty": "Средне",
+        "content": """
+# Модель OSI
+
+| # | Уровень | Протоколы |
+|---|---------|-----------|
+| 7 | Прикладной | HTTP, DNS |
+| 4 | Транспортный | TCP, UDP |
+| 3 | Сетевой | IP, ICMP |
+| 1 | Физический | USB |
+
+## Практика
+
+Пройди комнату «Сетевые технологии».
+"""
+    },
+    "network_dns": {
+        "id": "network_dns",
+        "category": "network",
+        "title": "DNS",
+        "short_description": "Система доменных имён",
+        "reading_time": 6,
+        "difficulty": "Средне",
+        "content": """
+# DNS
+
+DNS преобразует домены в IP-адреса.
+
+## Команды
+
+Linux: nslookup google.com
+
+Windows: Resolve-DnsName google.com
+
+## Практика
+
+Пройди комнату «Сетевые технологии».
+"""
+    },
+    "network_tcp_udp": {
+        "id": "network_tcp_udp",
+        "category": "network",
+        "title": "TCP vs UDP",
+        "short_description": "Разница протоколов",
+        "reading_time": 5,
+        "difficulty": "Легко",
+        "content": """
+# TCP vs UDP
+
+| Свойство | TCP | UDP |
+|----------|-----|-----|
+| Надёжность | Да | Нет |
+| Скорость | Медленнее | Быстрее |
+| Соединение | Устанавливает | Нет |
+
+## Практика
+
+Пройди комнату «Сетевые технологии».
+"""
+    },
+    "linux_commands": {
+        "id": "linux_commands",
+        "category": "linux",
+        "title": "Команды Linux",
+        "short_description": "Основные команды",
+        "reading_time": 8,
+        "difficulty": "Легко",
+        "content": """
+# Команды Linux
 
 ## Навигация
 
 pwd — текущая директория
 
-ls -la — список файлов с правами
+ls -la — список файлов
 
 cd /path — перейти
 
-## Работа с файлами
+## Файлы
 
-cat file.txt — показать содержимое
+cat file.txt — показать
 
 grep "text" file — поиск
 
-find / -name "*.txt" — найти файл
+find / -name "*.txt" — найти
 
-strings binary.bin — строки в бинарнике
-
-## Права доступа
+## Права
 
 chmod 777 file — все права
-
-chmod +x script.sh — сделать исполняемым
 
 sudo command — от root
 
@@ -393,63 +553,173 @@ nmap -sV target — сканирование
 Пройди комнату «Linux для хакеров».
 """
     },
-    "stego_lsb": {
-        "id": "stego_lsb",
-        "category": "steganography",
-        "title": "LSB — скрытие данных в изображениях",
-        "short_description": "Метод наименее значимого бита",
-        "reading_time": 5,
+    "linux_permissions": {
+        "id": "linux_permissions",
+        "category": "linux",
+        "title": "Права доступа",
+        "short_description": "chmod, chown, SUID",
+        "reading_time": 7,
         "difficulty": "Средне",
         "content": """
-# LSB — скрытие данных в изображениях
+# Права доступа Linux
 
-LSB (Least Significant Bit) — метод скрытия данных в наименее значимых битах пикселей.
+## Числа
 
-## Инструменты
+| Число | Права |
+|-------|-------|
+| 7 | rwx |
+| 6 | rw- |
+| 5 | r-x |
+| 4 | r-- |
 
-zsteg image.png — для PNG
+## Примеры
 
-steghide extract -sf image.jpg — для JPEG
+chmod 777 file — все права всем
+
+chmod 755 script.sh — rwx r-x r-x
+
+## SUID
+
+find / -perm -u=s -type f 2>/dev/null
 
 ## Практика
 
-Скачай CTF-файл и найди скрытый флаг.
+Пройди комнату «Linux для хакеров».
+"""
+    },
+    "linux_scripts": {
+        "id": "linux_scripts",
+        "category": "linux",
+        "title": "Bash-скрипты",
+        "short_description": "Автоматизация",
+        "reading_time": 7,
+        "difficulty": "Средне",
+        "content": """
+# Bash-скрипты
+
+## Простой скрипт
+
+#!/bin/bash
+echo "Hello, CyberLab!"
+
+## Цикл
+
+for i in {1..10}; do echo $i; done
+
+## Условие
+
+if [ -f file.txt ]; then echo "exists"; fi
+
+## Практика
+
+Пройди комнату «Linux для хакеров».
+"""
+    },
+    "stego_lsb": {
+        "id": "stego_lsb",
+        "category": "steganography",
+        "title": "LSB стеганография",
+        "short_description": "Скрытие в изображениях",
+        "reading_time": 5,
+        "difficulty": "Средне",
+        "content": """
+# LSB стеганография
+
+Скрытие данных в наименее значимых битах.
+
+## Инструменты
+
+zsteg image.png
+
+steghide extract -sf image.jpg
+
+## Практика
+
+Скачай CTF-файл и найди флаг.
+"""
+    },
+    "stego_audio": {
+        "id": "stego_audio",
+        "category": "steganography",
+        "title": "Аудио-стеганография",
+        "short_description": "Скрытие в звуке",
+        "reading_time": 5,
+        "difficulty": "Средне",
+        "content": """
+# Аудио-стеганография
+
+Скрытие данных в аудиофайлах.
+
+## Инструменты
+
+Sonic Visualiser — спектрограмма
+
+Audacity — анализ
+
+## Практика
+
+Пройди комнату «Стеганография».
 """
     },
     "reverse_ghidra": {
         "id": "reverse_ghidra",
         "category": "reverse",
-        "title": "Ghidra — инструмент для RE",
-        "short_description": "Знакомство с Ghidra от NSA",
+        "title": "Ghidra",
+        "short_description": "Инструмент для RE",
         "reading_time": 5,
         "difficulty": "Средне",
         "content": """
-# Ghidra — инструмент для RE
+# Ghidra
 
-Ghidra — бесплатный фреймворк для обратной разработки от NSA.
+Бесплатный фреймворк для обратной разработки от NSA.
 
 ## Возможности
 
-Дизассемблирование, декомпиляция, анализ бинарных файлов.
+Дизассемблирование, декомпиляция.
 
 ## Установка
 
-Скачай с https://ghidra-sre.org/
+Скачай с ghidra-sre.org
 
 ## Практика
 
 Пройди комнату «Reverse Engineering».
 """
     },
+    "reverse_strings": {
+        "id": "reverse_strings",
+        "category": "reverse",
+        "title": "Команда strings",
+        "short_description": "Строки в бинарнике",
+        "reading_time": 4,
+        "difficulty": "Легко",
+        "content": """
+# Команда strings
+
+Показывает текстовые строки в бинарном файле.
+
+## Linux
+
+strings binary.bin
+
+## Windows
+
+strings.exe binary.bin
+
+## Практика
+
+Скачай CTF-файл flag_binary.bin и найди флаг.
+"""
+    },
     "osint_google_dorks": {
         "id": "osint_google_dorks",
         "category": "osint",
-        "title": "Google Dorks — продвинутый поиск",
-        "short_description": "Операторы Google для OSINT",
+        "title": "Google Dorks",
+        "short_description": "Продвинутый поиск",
         "reading_time": 5,
         "difficulty": "Средне",
         "content": """
-# Google Dorks — продвинутый поиск
+# Google Dorks
 
 Операторы для продвинутого поиска.
 
@@ -458,7 +728,6 @@ Ghidra — бесплатный фреймворк для обратной ра�
 | site: | site:github.com "password" |
 | filetype: | filetype:pdf "confidential" |
 | intitle: | intitle:"index of" |
-| inurl: | inurl:admin |
 
 ## Практика
 
@@ -468,14 +737,14 @@ Ghidra — бесплатный фреймворк для обратной ра�
     "osint_shodan": {
         "id": "osint_shodan",
         "category": "osint",
-        "title": "Shodan — поисковик устройств",
-        "short_description": "Поиск устройств в интернете",
+        "title": "Shodan",
+        "short_description": "Поисковик устройств",
         "reading_time": 5,
         "difficulty": "Средне",
         "content": """
-# Shodan — поисковик устройств
+# Shodan
 
-Shodan — поисковая система для устройств в интернете.
+Поиск устройств в интернете.
 
 ## Фильтры
 
@@ -488,6 +757,35 @@ product:Apache
 ## Практика
 
 Пройди комнату «OSINT».
+"""
+    },
+    "osint_exiftool": {
+        "id": "osint_exiftool",
+        "category": "osint",
+        "title": "ExifTool — метаданные",
+        "short_description": "Анализ метаданных",
+        "reading_time": 5,
+        "difficulty": "Легко",
+        "content": """
+# ExifTool
+
+Показывает метаданные изображений.
+
+## Linux
+
+exiftool image.jpg
+
+## Windows
+
+exiftool.exe image.jpg
+
+## Что искать
+
+GPS-координаты, дату, камеру.
+
+## Практика
+
+Скачай CTF-файл и найди метаданные.
 """
     }
 }

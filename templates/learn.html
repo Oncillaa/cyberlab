@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📖 Обучение - CyberLab</title>
+    <title>Обучение - CyberLab</title>
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
@@ -12,23 +12,23 @@
         <div class="nav-container">
             <a href="{{ url_for('index') }}" class="nav-logo">🔐 CyberLab</a>
             <div class="nav-links">
-                <a href="{{ url_for('rooms') }}">{{ t.nav_rooms }}</a>
-                <a href="{{ url_for('learn') }}">📖 {{ t.nav_learn }}</a>
+                <a href="{{ url_for('rooms') }}">Комнаты</a>
+                <a href="{{ url_for('learn') }}" class="nav-active">📖 Обучение</a>
                 {% if current_user.is_authenticated %}
                 <a href="{{ url_for('ctf_files_list') }}">📁 CTF</a>
                 <a href="{{ url_for('vms_list') }}">🐳 VM</a>
                 {% endif %}
-                <a href="{{ url_for('leaderboard') }}">{{ t.nav_leaderboard }}</a>
+                <a href="{{ url_for('leaderboard') }}">Рейтинг</a>
                 {% if current_user.is_authenticated %}
-                    <a href="{{ url_for('profile') }}">{{ t.nav_profile }}</a>
-                    <span class="nav-points">⭐ {{ current_user.points }} {{ t.nav_points }}</span>
+                    <a href="{{ url_for('profile') }}">Профиль</a>
+                    <span class="nav-points">⭐ {{ current_user.points }}</span>
                     {% if current_user.is_admin == 1 %}
-                    <a href="{{ url_for('admin_panel') }}" class="admin-badge">👑 {{ t.nav_admin }}</a>
+                    <a href="{{ url_for('admin_panel') }}" class="admin-badge">👑</a>
                     {% endif %}
-                    <a href="{{ url_for('logout') }}" class="btn-logout">{{ t.nav_logout }}</a>
+                    <a href="{{ url_for('logout') }}" class="btn-logout">Выйти</a>
                 {% else %}
-                    <a href="{{ url_for('login') }}" class="btn-login">{{ t.nav_login }}</a>
-                    <a href="{{ url_for('register') }}" class="btn-register">{{ t.nav_register }}</a>
+                    <a href="{{ url_for('login') }}" class="btn-login">Войти</a>
+                    <a href="{{ url_for('register') }}" class="btn-register">Регистрация</a>
                 {% endif %}
                 <div class="lang-switch">
                     <a href="{{ url_for('set_lang', lang='ru') }}" class="{% if lang == 'ru' %}active{% endif %}">🇷🇺</a>
@@ -47,45 +47,46 @@
             {% endif %}
         {% endwith %}
 
-        <!-- Заголовок -->
+        <!-- HERO -->
         <section class="learn-hero">
             <h1>📖 Академия CyberLab</h1>
             <p>Изучай кибербезопасность пошагово — от нуля до продвинутого уровня</p>
             <div class="learn-hero-stats">
-                <span>🏆 {{ categories|length }} категорий</span>
-                <span>📄 14+ статей</span>
+                <span>📚 {{ categories|length }} категорий</span>
+                <span>📄 26 статей</span>
                 <span>🎯 Практика в каждой теме</span>
+                <span>🏆 Бесплатно</span>
             </div>
         </section>
 
-        <!-- Как начать -->
+        <!-- КАК НАЧАТЬ -->
         <section class="learn-guide">
-            <h2>🚀 Как начать обучение</h2>
+            <h2>🚀 Как начать</h2>
             <div class="guide-steps">
                 <div class="guide-step">
                     <div class="guide-step-number">1</div>
                     <h3>Выбери категорию</h3>
-                    <p>Начни с основ или выбери то, что интересно именно тебе</p>
+                    <p>Начни с основ или выбери то, что интересно</p>
                 </div>
                 <div class="guide-step">
                     <div class="guide-step-number">2</div>
                     <h3>Читай статьи</h3>
-                    <p>Простым языком с примерами и картинками</p>
+                    <p>Простым языком с примерами</p>
                 </div>
                 <div class="guide-step">
                     <div class="guide-step-number">3</div>
-                    <h3>Практикуйся</h3>
-                    <p>Переходи в комнаты и решай задания</p>
+                    <h3>Копируй команды</h3>
+                    <p>Одной кнопкой 📋</p>
                 </div>
                 <div class="guide-step">
                     <div class="guide-step-number">4</div>
-                    <h3>Зарабатывай очки</h3>
-                    <p>Поднимайся в рейтинге и получай бейджи</p>
+                    <h3>Практикуйся</h3>
+                    <p>Решай задания в комнатах</p>
                 </div>
             </div>
         </section>
 
-        <!-- Категории -->
+        <!-- КАТЕГОРИИ -->
         <section class="learn-categories-section">
             <h2>📚 Категории</h2>
             <div class="learn-categories">
@@ -93,7 +94,7 @@
                 <a href="{{ url_for('learn_category', category_id=category.id) }}" class="learn-category-card">
                     <div class="learn-category-header">
                         <span class="learn-category-icon">{{ category.icon }}</span>
-                        <span class="learn-article-badge">{{ category.article_count }} ст.</span>
+                        <span class="learn-article-badge">{{ category.article_count }} статей</span>
                     </div>
                     <h3>{{ category.title }}</h3>
                     <p>{{ category.description }}</p>
@@ -103,14 +104,14 @@
             </div>
         </section>
 
-        <!-- Рекомендация для новичков -->
+        <!-- ПУТЬ НОВИЧКА -->
         <section class="learn-beginner">
             <h2>🎯 Новичок? Начни здесь!</h2>
             <p>Рекомендуемый путь обучения:</p>
             <div class="beginner-path">
                 <a href="{{ url_for('learn_category', category_id='basics') }}" class="beginner-step">
                     <span class="beginner-icon">🔰</span>
-                    <span>Основы ИБ</span>
+                    <span>Основы</span>
                 </a>
                 <span class="beginner-arrow">→</span>
                 <a href="{{ url_for('learn_category', category_id='linux') }}" class="beginner-step">
@@ -127,13 +128,18 @@
                     <span class="beginner-icon">🌐</span>
                     <span>Веб</span>
                 </a>
+                <span class="beginner-arrow">→</span>
+                <a href="{{ url_for('learn_category', category_id='crypto') }}" class="beginner-step">
+                    <span class="beginner-icon">🔐</span>
+                    <span>Крипто</span>
+                </a>
             </div>
         </section>
     </main>
 
     <footer class="footer">
-        <p>🔐 CyberLab v1.3 | {{ t.footer_created }} <a href="https://github.com/Oncillaa" target="_blank">Oncilla</a></p>
-        <p>{{ t.footer_educational }}</p>
+        <p>🔐 CyberLab v1.5 | Создано <a href="https://github.com/Oncillaa" target="_blank">Oncilla</a></p>
+        <p>Только для образовательных целей</p>
     </footer>
 </body>
 </html>
