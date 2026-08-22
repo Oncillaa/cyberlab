@@ -72,7 +72,7 @@ python app.py
 
 ## 📁 Структура
 
-\`\`\`
+```
 cyberlab/
 ├── app.py              # Основное приложение
 ├── database.py         # База данных
@@ -86,7 +86,7 @@ cyberlab/
 │   └── favicon.svg
 ├── templates/          # HTML-шаблоны
 └── requirements.txt
-\`\`\`
+```
 
 ---
 
